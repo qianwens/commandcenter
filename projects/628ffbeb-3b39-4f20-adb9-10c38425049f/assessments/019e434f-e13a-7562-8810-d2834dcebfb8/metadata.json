@@ -1,14 +1,15 @@
 {
   "name": "testproj assessment",
   "execution_mode": "local",
-  "status": "running",
+  "status": "completed",
   "target": "",
   "domain": "",
   "created_at": "2026-05-20T02:56:09.1073627\u002B00:00",
+  "completed_at": "2026-05-20T02:57:31.4533600\u002B00:00",
   "base_commit": "f873a49413bf3d20ea585616491ed1e497295d1e",
   "apps": {
     "84703562-f152-4a38-b540-b12e3e92ba8d": {
-      "status": "pending"
+      "status": "completed"
     }
   }
 }
