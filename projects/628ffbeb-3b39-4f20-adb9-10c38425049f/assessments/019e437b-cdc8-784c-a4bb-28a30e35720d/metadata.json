@@ -8,7 +8,10 @@
   "base_commit": "f6479bdd57248b5b711d2ffc8286712a810613a5",
   "apps": {
     "84703562-f152-4a38-b540-b12e3e92ba8d": {
-      "status": "pending"
+      "status": "running",
+      "pull_request": "https://github.com/qianwens/PhotoAlbum-Java/pull/15",
+      "session_url": "https://github.com/qianwens/PhotoAlbum-Java/pull/15/agent-sessions/703a7dbf-52a5-4aa5-a845-0351fbad6ae5",
+      "job_id": "37290631-1089199450-80e32871-eaee-49a8-82b7-1d5758ffe220"
     }
   }
 }
