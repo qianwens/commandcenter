@@ -1,0 +1,84 @@
+{
+  "name": "demo assessment",
+  "execution_mode": "local",
+  "status": "completed",
+  "target": "",
+  "domain": "",
+  "created_at": "2026-05-20T09:27:42.8472148\u002B00:00",
+  "completed_at": "2026-05-20T09:39:05.5404186\u002B00:00",
+  "base_commit": "5df7626c7596071c2eddd1834fb63c69fb6a0ad7",
+  "apps": {
+    "3cbcfcfe-895a-4a32-9343-6dc7ca426b5e": {
+      "status": "completed"
+    },
+    "84703562-f152-4a38-b540-b12e3e92ba8d": {
+      "status": "completed"
+    },
+    "ebb60878-dc9b-44f1-8a32-a0afe47bd2d2": {
+      "status": "completed"
+    },
+    "d5e43bc9-e4b6-4c54-bd35-54e5780f3b1a": {
+      "status": "completed"
+    },
+    "b5c44c9a-6fb1-4b3e-99fa-b8bffef61631": {
+      "status": "completed"
+    },
+    "1fcfc60c-e6dd-4c84-a5ab-351898d5f93a": {
+      "status": "completed"
+    },
+    "165429a1-c33c-4a71-8a32-438f46592526": {
+      "status": "completed"
+    },
+    "93862fa3-5091-4674-af49-a8d8d2afc0fd": {
+      "status": "completed"
+    },
+    "3188ed6e-b2c8-4220-b706-5872c3e32596": {
+      "status": "completed"
+    },
+    "c78a2e94-e6d0-4c79-b42e-a90a124617d4": {
+      "status": "completed"
+    },
+    "f1cd96c5-3242-478f-83bc-40d0e6cf531a": {
+      "status": "completed"
+    },
+    "e892b49c-5ffd-429f-ae18-f1df90312079": {
+      "status": "completed"
+    },
+    "0cab9f6a-11ed-4b64-bb98-44042c0a7a9d": {
+      "status": "completed"
+    },
+    "a9c0451e-a85e-498f-974d-8829a0736f8d": {
+      "status": "completed"
+    },
+    "0770992b-1b40-467e-aeab-45bbc2b445ac": {
+      "status": "completed"
+    },
+    "76c949ae-687c-40b3-a83a-42b628ae4a95": {
+      "status": "completed"
+    },
+    "f13f12a7-d540-4b91-83b9-3219de131fe6": {
+      "status": "completed"
+    },
+    "a638a7a8-88b7-475d-bccc-23f0a46dd9d9": {
+      "status": "completed"
+    },
+    "a9ad4006-50ad-40ed-b9ce-9666afc63965": {
+      "status": "completed"
+    },
+    "1f7854ce-ddb1-484c-8e88-d79565905d27": {
+      "status": "completed"
+    },
+    "117a8030-8dab-4a0d-ab67-40fb3fb8a241": {
+      "status": "completed"
+    },
+    "8f506c9f-bbf8-425f-ab78-6477b376c2d3": {
+      "status": "completed"
+    },
+    "8371301d-54c3-418d-a19b-c0eca69dfb62": {
+      "status": "completed"
+    },
+    "fa919237-ee34-457e-9042-53b8e00cf08b": {
+      "status": "completed"
+    }
+  }
+}
