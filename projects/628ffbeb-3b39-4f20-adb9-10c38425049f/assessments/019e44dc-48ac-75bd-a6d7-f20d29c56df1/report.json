@@ -1,0 +1,2583 @@
+[
+  {
+    "version": "1.0.0",
+    "producer": "Java AppCAT CLI",
+    "metadata": {
+      "analysisStartTime": "2026-05-20T10:09:11.1692869Z",
+      "analysisEndTime": "2026-05-20T10:09:49.5939445Z",
+      "status": "Complete",
+      "privacyMode": "Protected",
+      "privacyModeHelpUrl": "https://aka.ms/appcat-privacy-mode",
+      "targetIds": [
+        "azure-aks",
+        "azure-appservice",
+        "azure-container-apps"
+      ],
+      "targetDisplayNames": [
+        "Azure Kubernetes Service",
+        "Azure App Service",
+        "Azure Container Apps"
+      ],
+      "capabilities": [],
+      "os": [],
+      "domains": [],
+      "mode": "issue-only",
+      "minimumCveSeverity": "high"
+    },
+    "summary": {
+      "totalProjects": 1,
+      "totalIssues": 9,
+      "totalIncidents": 27,
+      "totalEffort": 172,
+      "charts": {
+        "severity": {
+          "mandatory": 11,
+          "optional": 2,
+          "potential": 14,
+          "information": 0
+        },
+        "category": {
+          "database-migration": 6,
+          "framework-upgrade": 10,
+          "jakarta-migration": 1,
+          "java-version-upgrade": 3,
+          "local-credential": 3,
+          "spring-migration": 4
+        }
+      }
+    },
+    "projects": [
+      {
+        "path": ".",
+        "issues": 9,
+        "storyPoints": 172,
+        "properties": {
+          "appName": "photo-album",
+          "jdkVersion": "1.8",
+          "frameworks": [
+            "Spring Boot",
+            "Spring"
+          ],
+          "languages": [
+            "Java",
+            "JavaScript"
+          ],
+          "tools": [
+            "Maven"
+          ]
+        },
+        "incidents": [
+          {
+            "ruleId": "azure-database-microsoft-oracle-07000",
+            "incidentId": "72cc97b8-42fb-4435-a419-f07d2bdc3f34",
+            "location": "pom.xml",
+            "locationKind": "File",
+            "line": 52,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 8,
+                "severity": "potential"
+              },
+              "azure-appservice": {
+                "effort": 8,
+                "severity": "potential"
+              },
+              "azure-container-apps": {
+                "effort": 8,
+                "severity": "potential"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "azure-database-microsoft-oracle-07000",
+            "incidentId": "18086497-ff64-4313-9e42-7b66e1a97f44",
+            "location": "docker-compose.yml",
+            "locationKind": "File",
+            "line": 32,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 8,
+                "severity": "potential"
+              },
+              "azure-appservice": {
+                "effort": 8,
+                "severity": "potential"
+              },
+              "azure-container-apps": {
+                "effort": 8,
+                "severity": "potential"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "azure-database-microsoft-oracle-07000",
+            "incidentId": "09f8396f-3caa-4ddc-830a-1bfb11240ff3",
+            "location": "src/main/resources/application.properties",
+            "locationKind": "File",
+            "line": 10,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 8,
+                "severity": "potential"
+              },
+              "azure-appservice": {
+                "effort": 8,
+                "severity": "potential"
+              },
+              "azure-container-apps": {
+                "effort": 8,
+                "severity": "potential"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "azure-database-microsoft-oracle-07000",
+            "incidentId": "a0d7e1f5-4c15-4fdf-bb57-dd893d86475b",
+            "location": "src/main/resources/application-docker.properties",
+            "locationKind": "File",
+            "line": 2,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 8,
+                "severity": "potential"
+              },
+              "azure-appservice": {
+                "effort": 8,
+                "severity": "potential"
+              },
+              "azure-container-apps": {
+                "effort": 8,
+                "severity": "potential"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "azure-database-microsoft-oracle-07000",
+            "incidentId": "02dc6bc7-4281-4e30-a2ad-2aa3e0a171c6",
+            "location": "src/main/resources/application.properties",
+            "locationKind": "File",
+            "line": 13,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 8,
+                "severity": "potential"
+              },
+              "azure-appservice": {
+                "effort": 8,
+                "severity": "potential"
+              },
+              "azure-container-apps": {
+                "effort": 8,
+                "severity": "potential"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "azure-database-microsoft-oracle-07000",
+            "incidentId": "050e279d-96ad-4ba9-a485-2807585fa49f",
+            "location": "src/main/resources/application-docker.properties",
+            "locationKind": "File",
+            "line": 5,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 8,
+                "severity": "potential"
+              },
+              "azure-appservice": {
+                "effort": 8,
+                "severity": "potential"
+              },
+              "azure-container-apps": {
+                "effort": 8,
+                "severity": "potential"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "azure-password-01000",
+            "incidentId": "308fbfe8-c921-463f-96e6-91b6f7469231",
+            "location": "src/main/resources/application-docker.properties",
+            "locationKind": "File",
+            "line": 4,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 3,
+                "severity": "potential"
+              },
+              "azure-appservice": {
+                "effort": 3,
+                "severity": "potential"
+              },
+              "azure-container-apps": {
+                "effort": 3,
+                "severity": "potential"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "azure-password-01000",
+            "incidentId": "7a65b1c9-2d41-41a2-ae45-83b8a62e0c29",
+            "location": "src/test/resources/application-test.properties",
+            "locationKind": "File",
+            "line": 5,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 3,
+                "severity": "potential"
+              },
+              "azure-appservice": {
+                "effort": 3,
+                "severity": "potential"
+              },
+              "azure-container-apps": {
+                "effort": 3,
+                "severity": "potential"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "azure-password-01000",
+            "incidentId": "4e163964-3362-44c3-bc0a-6d901dcabb9c",
+            "location": "src/main/resources/application.properties",
+            "locationKind": "File",
+            "line": 12,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 3,
+                "severity": "potential"
+              },
+              "azure-appservice": {
+                "effort": 3,
+                "severity": "potential"
+              },
+              "azure-container-apps": {
+                "effort": 3,
+                "severity": "potential"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "spring-framework-version-01000",
+            "incidentId": "95a700ff-9f07-44e8-971b-f7c58ffb84a5",
+            "location": "pom.xml",
+            "locationKind": "File",
+            "line": 34,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-appservice": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-container-apps": {
+                "effort": 8,
+                "severity": "mandatory"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "spring-framework-version-01000",
+            "incidentId": "6a4e31da-681d-4c74-a9d6-553379d1f470",
+            "location": "pom.xml",
+            "locationKind": "File",
+            "line": 46,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-appservice": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-container-apps": {
+                "effort": 8,
+                "severity": "mandatory"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "spring-framework-version-01000",
+            "incidentId": "9e6e5498-4590-4550-ad41-ddd7028bd340",
+            "location": "pom.xml",
+            "locationKind": "File",
+            "line": 78,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-appservice": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-container-apps": {
+                "effort": 8,
+                "severity": "mandatory"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "azure-java-version-01000",
+            "incidentId": "38490d15-91ed-4d3d-9287-b43f7de23005",
+            "location": "pom.xml",
+            "locationKind": "File",
+            "line": 24,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-appservice": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-container-apps": {
+                "effort": 8,
+                "severity": "mandatory"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "azure-java-version-02000",
+            "incidentId": "90ffffeb-550a-442b-aebe-ea191cdfb3b0",
+            "location": "pom.xml",
+            "locationKind": "File",
+            "line": 25,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 8,
+                "severity": "optional"
+              },
+              "azure-appservice": {
+                "effort": 8,
+                "severity": "optional"
+              },
+              "azure-container-apps": {
+                "effort": 8,
+                "severity": "optional"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "azure-java-version-02000",
+            "incidentId": "420a0856-8afc-4bb2-8b67-d17092607252",
+            "location": "pom.xml",
+            "locationKind": "File",
+            "line": 26,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 8,
+                "severity": "optional"
+              },
+              "azure-appservice": {
+                "effort": 8,
+                "severity": "optional"
+              },
+              "azure-container-apps": {
+                "effort": 8,
+                "severity": "optional"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "spring-boot-to-azure-port-01000",
+            "incidentId": "2859cb72-b84c-48e1-9184-bc3bde2174b2",
+            "location": "src/main/resources/application-docker.properties",
+            "locationKind": "File",
+            "line": 24,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 1,
+                "severity": "potential"
+              },
+              "azure-appservice": {
+                "effort": 1,
+                "severity": "potential"
+              },
+              "azure-container-apps": {
+                "effort": 1,
+                "severity": "potential"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "spring-boot-to-azure-port-01000",
+            "incidentId": "f85157e7-ee9c-43c8-9090-f387008a7126",
+            "location": "src/main/resources/application.properties",
+            "locationKind": "File",
+            "line": 2,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 1,
+                "severity": "potential"
+              },
+              "azure-appservice": {
+                "effort": 1,
+                "severity": "potential"
+              },
+              "azure-container-apps": {
+                "effort": 1,
+                "severity": "potential"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "spring-boot-to-azure-restricted-config-01000",
+            "incidentId": "59e68649-76f2-4703-8163-a61ab670c5bb",
+            "location": "src/main/resources/application-docker.properties",
+            "locationKind": "File",
+            "line": 24,
+            "column": 0,
+            "targets": {
+              "azure-container-apps": {
+                "effort": 2,
+                "severity": "potential"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "spring-boot-to-azure-restricted-config-01000",
+            "incidentId": "08e07347-0d5e-45f8-a14b-7b6aa95a2bae",
+            "location": "src/main/resources/application.properties",
+            "locationKind": "File",
+            "line": 2,
+            "column": 0,
+            "targets": {
+              "azure-container-apps": {
+                "effort": 2,
+                "severity": "potential"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "spring-boot-to-azure-spring-boot-version-01000",
+            "incidentId": "758e6c05-6c10-4e6d-af3e-ded5d8518077",
+            "location": "pom.xml",
+            "locationKind": "File",
+            "line": 78,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-appservice": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-container-apps": {
+                "effort": 8,
+                "severity": "mandatory"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "spring-boot-to-azure-spring-boot-version-01000",
+            "incidentId": "32a907e6-5f13-4095-9df3-f2582a8ee79f",
+            "location": "pom.xml",
+            "locationKind": "File",
+            "line": 34,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-appservice": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-container-apps": {
+                "effort": 8,
+                "severity": "mandatory"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "spring-boot-to-azure-spring-boot-version-01000",
+            "incidentId": "a97738af-7ffd-4b23-bdb0-daa351bea321",
+            "location": "pom.xml",
+            "locationKind": "File",
+            "line": 46,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-appservice": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-container-apps": {
+                "effort": 8,
+                "severity": "mandatory"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "spring-boot-to-azure-spring-boot-version-01000",
+            "incidentId": "4c21d885-bb75-4770-9791-94a26718e0e2",
+            "location": "pom.xml",
+            "locationKind": "File",
+            "line": 92,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-appservice": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-container-apps": {
+                "effort": 8,
+                "severity": "mandatory"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "spring-boot-to-azure-spring-boot-version-01000",
+            "incidentId": "4e0403db-22d6-4418-9ee5-a32b49f6e050",
+            "location": "pom.xml",
+            "locationKind": "File",
+            "line": 72,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-appservice": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-container-apps": {
+                "effort": 8,
+                "severity": "mandatory"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "spring-boot-to-azure-spring-boot-version-01000",
+            "incidentId": "1bcc10e8-c069-449f-99ca-baa3bdeff3fa",
+            "location": "pom.xml",
+            "locationKind": "File",
+            "line": 59,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-appservice": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-container-apps": {
+                "effort": 8,
+                "severity": "mandatory"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "spring-boot-to-azure-spring-boot-version-01000",
+            "incidentId": "399a9fb4-aa73-41ae-9ef5-877d3685a3a0",
+            "location": "pom.xml",
+            "locationKind": "File",
+            "line": 40,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-appservice": {
+                "effort": 8,
+                "severity": "mandatory"
+              },
+              "azure-container-apps": {
+                "effort": 8,
+                "severity": "mandatory"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=azure/springboot"
+            ]
+          },
+          {
+            "ruleId": "jakarta-database-00002",
+            "incidentId": "45b2be3e-2d47-4bc5-ad27-063cc5a8c2c0",
+            "location": "pom.xml",
+            "locationKind": "File",
+            "line": 46,
+            "column": 0,
+            "targets": {
+              "azure-aks": {
+                "effort": 5,
+                "severity": "potential"
+              },
+              "azure-appservice": {
+                "effort": 5,
+                "severity": "potential"
+              },
+              "azure-container-apps": {
+                "effort": 5,
+                "severity": "potential"
+              }
+            },
+            "labels": [
+              "type=violation",
+              "ruleset=cloud-readiness"
+            ]
+          }
+        ]
+      }
+    ],
+    "rules": {
+      "azure-database-microsoft-oracle-07000": {
+        "id": "azure-database-microsoft-oracle-07000",
+        "description": "Oracle database found. To migrate a Java application that uses an Oracle database to Azure, you can follow these recommendations:\n\n * **Migrate to Azure Database for PostgreSQL**: Azure recommends migrating Oracle databases to Azure Database for PostgreSQL Flexible Server as it provides better cost-effectiveness and performance. Create a managed PostgreSQL Flexible Server database in Azure and choose the appropriate pricing tier based on your application\u0027s requirements.\n\n * **Use migration tools**: Utilize the Azure Database Migration Service (DMS) or third-party tools to migrate your Oracle database schema and data to PostgreSQL. Consider using ora2pg or similar tools to convert Oracle-specific SQL to PostgreSQL-compatible SQL.\n\n * **Update database drivers and connection strings**: Replace Oracle JDBC drivers with PostgreSQL drivers in your Java application. Update connection strings from Oracle format (jdbc:oracle:thin:) to PostgreSQL format (jdbc:postgresql:).\n\n * **Review and convert Oracle-specific code**: Identify and convert Oracle-specific SQL functions, stored procedures, and PL/SQL code to PostgreSQL equivalents. Pay attention to data types, syntax differences, and built-in functions.\n\n * Enable **monitoring and diagnostics**: Utilize Azure Monitor to gain insights into the performance and health of your Java application and the underlying PostgreSQL database. Set up metrics, alerts, and log analytics to proactively identify and resolve issues.\n\n * Implement **security** measures: Apply security best practices to protect your Java application and the PostgreSQL database. This includes implementing authentication and authorization mechanisms with passwordless connections and leveraging Microsoft Defender for Cloud for threat detection and vulnerability assessments.\n\n * **Backup** your data: Azure Database for PostgreSQL provides automated backups by default. You can configure the retention period for backups based on your requirements. You can also enable geo-redundant backups, if needed, to enhance data durability and availability.",
+        "title": "Oracle database found",
+        "severity": "potential",
+        "effort": 8,
+        "links": [
+          {
+            "url": "https://learn.microsoft.com/azure/postgresql",
+            "title": "Azure Database for PostgreSQL documentation"
+          },
+          {
+            "url": "https://learn.microsoft.com/azure/postgresql/migrate/how-to-migrate-oracle-ora2pg",
+            "title": "Oracle to PostgreSQL migration guide"
+          },
+          {
+            "url": "https://learn.microsoft.com/azure/dms",
+            "title": "Azure Database Migration Service documentation"
+          },
+          {
+            "url": "https://learn.microsoft.com/azure/azure-monitor",
+            "title": "Azure Monitor documentation"
+          },
+          {
+            "url": "https://learn.microsoft.com/azure/defender-for-cloud",
+            "title": "Microsoft Defender for Cloud"
+          }
+        ],
+        "labels": [
+          "target=azure-appservice",
+          "target=azure-aks",
+          "target=azure-container-apps",
+          "source",
+          "domain=cloud-readiness",
+          "category=database-migration",
+          "database",
+          "oracle",
+          "os=windows",
+          "os=linux"
+        ]
+      },
+      "azure-java-version-01000": {
+        "id": "azure-java-version-01000",
+        "description": "The application is using a Java version that has reached the end of support. It is strongly recommended to plan and execute a migration strategy to upgrade your application to a supported Java version.\nSupported Java versions receive long-term support (LTS) from the Java community, including bug fixes and updates. Migrating to a supported version provides you with a stable and well-maintained platform for your application.",
+        "title": "Java Version Has Reached the End of Support",
+        "severity": "mandatory",
+        "effort": 8,
+        "labels": [
+          "target=azure-appservice",
+          "target=azure-aks",
+          "target=azure-container-apps",
+          "source",
+          "domain=java-upgrade",
+          "category=java-version-upgrade",
+          "version",
+          "os=windows",
+          "os=linux"
+        ]
+      },
+      "azure-java-version-02000": {
+        "id": "azure-java-version-02000",
+        "description": "The application is not using the latest LTS Java version. It is recommended to consider upgrading to the latest LTS version to take advantage of the newest language features, performance improvements, and extended support timelines.\nUpgrading to the latest LTS version ensures your application benefits from the most recent security enhancements and a longer support lifecycle.",
+        "title": "Java Version is not the latest LTS",
+        "severity": "optional",
+        "effort": 8,
+        "labels": [
+          "target=azure-appservice",
+          "target=azure-aks",
+          "target=azure-container-apps",
+          "source",
+          "domain=java-upgrade",
+          "category=java-version-upgrade",
+          "version",
+          "os=windows",
+          "os=linux"
+        ]
+      },
+      "azure-password-01000": {
+        "id": "azure-password-01000",
+        "description": "Using clear passwords in property files is a security risk, as they can be easily compromised if the files are accessed by unauthorized individuals. To enhance the security of your application, it is recommended to employ secure credential management practices.\n\n * **Azure Key Vault**: Utilize Azure Key Vault to securely store and manage your application\u0027s passwords and other sensitive credentials. Azure Key Vault provides a centralized and highly secure location for storing secrets, keys, and certificates.\n\n * **Passwordless connections**: You can provide an additional layer of security and convenience for accessing resources in Azure by eliminating the need for passwords. This way you can reduce the risk of password-related vulnerabilities, such as weak passwords or password theft.",
+        "title": "Password found in configuration file",
+        "severity": "potential",
+        "effort": 3,
+        "links": [
+          {
+            "url": "https://learn.microsoft.com/azure/key-vault",
+            "title": "Azure Key Vault documentation"
+          },
+          {
+            "url": "https://learn.microsoft.com/azure/developer/intro/passwordless-overview",
+            "title": "Passwordless connections for Azure services"
+          },
+          {
+            "url": "https://learn.microsoft.com/azure/developer/java/migration/migrate-spring-boot-to-azure-container-apps#inventory-configuration-sources-and-secrets",
+            "title": "Password found in configuration file"
+          },
+          {
+            "url": "https://docs.microsoft.com/azure/developer/java/spring-framework/configure-spring-boot-starter-java-app-with-azure-key-vault",
+            "title": "Read a secret from Azure Key Vault in a Spring Boot application"
+          },
+          {
+            "url": "https://search.maven.org/artifact/com.azure.spring/azure-spring-boot-starter-keyvault-secrets",
+            "title": "Azure Spring Boot Starter for Azure Key Vault Secrets"
+          }
+        ],
+        "labels": [
+          "source",
+          "target=azure-appservice",
+          "target=azure-aks",
+          "target=azure-container-apps",
+          "domain=cloud-readiness",
+          "category=local-credential",
+          "password",
+          "security",
+          "os=windows",
+          "os=linux"
+        ]
+      },
+      "jakarta-database-00002": {
+        "id": "jakarta-database-00002",
+        "description": "The application depends on **Jakarta Persistence (JPA)** APIs (\u0060jakarta.persistence.*\u0060 or legacy \u0060javax.persistence.*\u0060), which are used for object-relational mapping (ORM) and database interaction in Jakarta EE or Java EE applications.\n\nWhen migrating to Azure:\n- Ensure that the database connection, JPA provider (e.g., Hibernate, EclipseLink), and dialect are compatible with your target Azure database service.\n- Recommended database services include **Azure Database for PostgreSQL**, **Azure Database for MySQL**, or **Azure SQL Database**.\n- For containerized deployments, these JPA-based applications can run on **Azure Kubernetes Service (AKS)** or **Azure App Service for Linux/Windows**.\n- If using **Spring Data JPA**, verify that connection pool settings and environment variables are properly configured for the cloud environment.\n- Consider leveraging **Azure Key Vault** for secure storage of database credentials and connection strings.",
+        "title": "Detects usage of Jakarta Persistence (JPA) APIs",
+        "severity": "potential",
+        "effort": 5,
+        "links": [
+          {
+            "url": "https://jakarta.ee/specifications/persistence/",
+            "title": "Jakarta Persistence Specification"
+          },
+          {
+            "url": "https://learn.microsoft.com/en-us/azure/architecture/guide/technology-choices/data-stores-getting-started#common-database-scenarios",
+            "title": "Prepare to choose a data store in Azure"
+          }
+        ],
+        "labels": [
+          "source=java",
+          "source=java-ee",
+          "target=azure-aks",
+          "target=azure-container-apps",
+          "target=azure-appservice",
+          "domain=cloud-readiness",
+          "category=jakarta-migration",
+          "os=windows",
+          "os=linux"
+        ]
+      },
+      "spring-boot-to-azure-port-01000": {
+        "id": "spring-boot-to-azure-port-01000",
+        "description": "The application is setting the server port. To migrate a Java application that sets the server port to Azure Container Apps:\n\n * **Azure Container Apps allows you to expose port according to your Azure Container Apps resource configuration. For instance, a Spring Boot application listens to port of 8080 by default, but it can be set with server.port or environment variable SERVER_PORT as you need.",
+        "title": "Server port configuration found",
+        "severity": "potential",
+        "effort": 1,
+        "links": [
+          {
+            "url": "https://learn.microsoft.com/azure/developer/java/migration/migrate-spring-boot-to-azure-container-apps#identify-any-clients-relying-on-a-non-standard-port",
+            "title": "Identify any clients relying on a non-standard port"
+          }
+        ],
+        "labels": [
+          "source=springboot",
+          "target=azure-aks",
+          "target=azure-appservice",
+          "target=azure-container-apps",
+          "domain=cloud-readiness",
+          "category=spring-migration",
+          "port",
+          "server port",
+          "os=windows",
+          "os=linux"
+        ]
+      },
+      "spring-boot-to-azure-restricted-config-01000": {
+        "id": "spring-boot-to-azure-restricted-config-01000",
+        "description": "The application uses restricted configurations for Azure Container Apps.\n These properties can be automatically injected into your application environment by Azure Container Apps to access managed Config Server and managed Eureka Server.\n Please remove them from your application, including configuration files, config server files, command line parameters, Java system attributes, and environment variables.\n\n If configured in **configuration files**: they will be ignored and overrided by Azure Container Apps.\n \n If configured in **Config Server files**, **command line parameters**, **Java system attribute**, **environment variable**: they need to be removed or you might experience conflicts and unexpected behavior.",
+        "title": "Restricted configurations found",
+        "severity": "potential",
+        "effort": 2,
+        "links": [
+          {
+            "url": "https://learn.microsoft.com/azure/developer/java/migration/migrate-spring-cloud-to-azure-container-apps#remove-restricted-configurations",
+            "title": "Migrate Spring Boot applications to Azure Container Apps - Remove restricted configurations"
+          },
+          {
+            "url": "https://learn.microsoft.com/azure/container-apps/java-config-server?tabs=azure-cli",
+            "title": "Connect to a managed Config Server for Spring in Azure Container Apps"
+          },
+          {
+            "url": "https://learn.microsoft.com/azure/container-apps/java-eureka-server?tabs=azure-cli",
+            "title": "Connect to a managed Eureka Server for Spring in Azure Container Apps"
+          }
+        ],
+        "labels": [
+          "target=azure-container-apps",
+          "source=springboot",
+          "domain=cloud-readiness",
+          "category=spring-migration",
+          "os=windows",
+          "os=linux"
+        ]
+      },
+      "spring-boot-to-azure-spring-boot-version-01000": {
+        "id": "spring-boot-to-azure-spring-boot-version-01000",
+        "description": "The application is using a Spring Boot version that has reached its End of OSS Support.\nWith the officially supported new versions from Spring, you can get the best experience. Here are some steps you can take to update your application to the latest version of Spring Boot:\n\n* Choose a **supported Spring Boot version**: Check out Spring Boot Support Versions and determine the most suitable supported Spring Boot version.\n\n* **Update Spring Boot version**: Update the Spring Boot version of your application. There are automated tools like Rewrite to help you with the migration.\n\n* **Address code compatibility**: Review your application\u0027s codebase for any potential compatibility issues with the target Spring Boot version. Update deprecated APIs or features, address any language or library changes, and ensure that your code follows best practices and standards.\n\n* **Test thoroughly**: Execute a comprehensive testing process to verify the compatibility and functionality of your application with the new Spring Boot version. Perform unit tests, integration tests, and system tests to validate that all components and dependencies work as expected.",
+        "title": "Spring Boot Version Has Reached the End of OSS Support",
+        "severity": "mandatory",
+        "effort": 8,
+        "links": [
+          {
+            "url": "https://learn.microsoft.com/azure/developer/java/migration/migrate-spring-boot-to-azure-container-apps",
+            "title": "Migrate Spring Boot applications to Azure Container Apps"
+          },
+          {
+            "url": "https://learn.microsoft.com/azure/container-apps/java-microservice-get-started?tabs=azure-cli",
+            "title": "Launch your first Java microservice application with managed Java components in Azure Container Apps"
+          },
+          {
+            "url": "https://spring.io/projects/spring-boot/#support",
+            "title": "Spring Boot Supported Versions"
+          },
+          {
+            "url": "https://github.com/spring-projects/spring-boot/wiki/Supported-Versions",
+            "title": "Spring Boot Support Policy"
+          }
+        ],
+        "labels": [
+          "source=springboot",
+          "target=azure-appservice",
+          "target=azure-aks",
+          "target=azure-container-apps",
+          "domain=java-upgrade",
+          "category=framework-upgrade",
+          "version",
+          "os=windows",
+          "os=linux"
+        ]
+      },
+      "spring-framework-version-01000": {
+        "id": "spring-framework-version-01000",
+        "description": "Your application is using a Spring Framework version that has reached its End of OSS Support.\nUpgrading to a supported version ensures better performance, security, and compatibility with modern tools.\n  1. Pick a Supported Version: Review the Spring Framework support policy and choose an actively supported version.\n  2. Update Your Project: Change the Spring Framework version in your pom.xml or build.gradle.\n  3. Fix Compatibility Issues: Update deprecated code, replace removed features, and ensure dependencies are compatible with the new Spring Framework version.\n  4. Thoroughly Test: Run unit, integration, and end-to-end tests to make sure everything still works after the upgrade.",
+        "title": "Spring Framework Version Has Reached the End of OSS Support",
+        "severity": "mandatory",
+        "effort": 8,
+        "links": [
+          {
+            "url": "https://spring.io/projects/spring-framework#support",
+            "title": "Spring Framework Supported Versions"
+          },
+          {
+            "url": "https://github.com/spring-projects/spring-framework/wiki/Spring-Framework-Versions",
+            "title": "Spring Framework Support Policy"
+          }
+        ],
+        "labels": [
+          "source=spring",
+          "target=azure-appservice",
+          "target=azure-aks",
+          "target=azure-container-apps",
+          "domain=java-upgrade",
+          "category=framework-upgrade",
+          "version",
+          "os=windows",
+          "os=linux"
+        ]
+      }
+    }
+  },
+  {
+    "version": "1.0.0",
+    "producer": ".NET AppCAT CLI",
+    "metadata": {
+      "analysisStartTime": "2026-05-20T10:09:56.3859038Z",
+      "analysisEndTime": "2026-05-20T10:09:58.5085846Z",
+      "privacyMode": "Restricted",
+      "privacyModeHelpUrl": "https://go.microsoft.com/fwlink/?linkid=2271074",
+      "targetIds": [
+        "AppService.Windows",
+        "AppService.Linux",
+        "AKS.Linux",
+        "AKS.Windows",
+        "ACA",
+        "AppServiceContainer.Linux",
+        "AppServiceContainer.Windows",
+        "AppServiceManagedInstance.Windows"
+      ],
+      "targetDisplayNames": [
+        "Azure App Service",
+        "Azure Kubernetes Service",
+        "Azure Container Apps",
+        "Azure App Service Container",
+        "Azure App Service Managed Instance"
+      ],
+      "os": [],
+      "capabilities": [],
+      "domains": [],
+      "mode": "issue-only",
+      "minimumCveSeverity": "high"
+    },
+    "summary": {
+      "totalProjects": 1,
+      "totalIssues": 4,
+      "totalIncidents": 33,
+      "totalEffort": 99,
+      "charts": {
+        "severity": {
+          "mandatory": 0,
+          "optional": 32,
+          "potential": 1,
+          "information": 0
+        },
+        "category": {
+          "Security": 4,
+          "Database": 29
+        }
+      }
+    },
+    "projects": [
+      {
+        "path": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\ZavaStatementService.csproj",
+        "issues": 4,
+        "storyPoints": 99,
+        "properties": {
+          "appName": "ZavaStatementService",
+          "frameworks": [
+            ".NETFramework,Version=v4.8"
+          ],
+          "languages": [
+            "C#"
+          ],
+          "tools": [
+            "MSBuild"
+          ]
+        },
+        "incidents": [
+          {
+            "ruleId": "Security.0003",
+            "incidentId": "5ab0d6fd-0fa4-422c-ba9d-c81119c6778e",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\DbConfig.cs",
+            "locationKind": "File",
+            "line": 22,
+            "column": 20,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "mandatory",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Security.0003",
+            "incidentId": "c702566e-9999-4791-b99e-56fe88560d5a",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\DbConfig.cs",
+            "locationKind": "File",
+            "line": 13,
+            "column": 47,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "mandatory",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Security.0003",
+            "incidentId": "a903490d-436e-4d8b-95b8-1ddcb3a0a329",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\DbConfig.cs",
+            "locationKind": "File",
+            "line": 13,
+            "column": 62,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "mandatory",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "11b2dd08-efe5-4828-8054-3e36db02f8ec",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 244,
+            "column": 65,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "65f1bf11-9c29-4af2-bee4-143d532eef50",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 246,
+            "column": 19,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "6c94ec9c-ac1a-498e-bb3f-026f6360712d",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 246,
+            "column": 37,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "5ca85a67-ebbe-4dcf-9dd3-c332264c9d37",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 197,
+            "column": 19,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "3ab6df44-5290-45c2-ae98-6f33726bacfc",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 197,
+            "column": 37,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "b5a8dcbd-41ef-47f6-9c26-8e10c995d350",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 50,
+            "column": 23,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "8a71f634-de09-4e42-a049-c16df93efcd6",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 50,
+            "column": 41,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "c5890481-d5ae-4142-af27-78bf7884628c",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 26,
+            "column": 23,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "6a5d296a-bf95-4e85-97e6-81ee489e3364",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 26,
+            "column": 41,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "0a994dc6-7fa9-4cb0-ba51-253375d5b352",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 156,
+            "column": 19,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "dc6cf96b-d519-4b55-b024-ca7b57c0e3d2",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 156,
+            "column": 37,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "9cb80086-cc51-4251-90f0-d0597ffdee6a",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 17,
+            "column": 19,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "33c64a36-790a-4819-9de5-ff93207e0dec",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 17,
+            "column": 40,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "388345c1-f306-45fd-89bb-f16576705c0f",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 196,
+            "column": 19,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "48ab5d65-83a1-4266-8dbd-1fb44a588486",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 196,
+            "column": 40,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "0c1e5bd9-f4ae-4d08-afc0-18cfc27cf771",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 155,
+            "column": 19,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "7a849025-3314-4e44-ad32-4faa8afed1f6",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 155,
+            "column": 40,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "54c623cf-fb72-4f3c-b42f-fc519b7c7be9",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 123,
+            "column": 23,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "e2b4880a-2548-46d7-8159-f082239cf1a7",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 123,
+            "column": 47,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "766bd824-4ff9-425f-9b11-d03d1b4c769b",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 110,
+            "column": 23,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "f4df89a4-e69c-417f-bca3-d65deb3072b4",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 110,
+            "column": 49,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "c9d892b0-29d4-45f7-8eec-fcca07d90657",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 96,
+            "column": 23,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "9ef0344c-8df2-4c11-a229-76a7b0886470",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 96,
+            "column": 47,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "39fcc304-3a59-468e-9e50-8331b31e5fc3",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 33,
+            "column": 27,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "57c61a38-b247-482f-9423-ed84b4bb6403",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 63,
+            "column": 27,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "1c4056b9-dcd9-4494-9b00-809a370414ad",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 206,
+            "column": 23,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "1cf4a360-6f98-47e3-a4ac-754306655079",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\StatementService.cs",
+            "locationKind": "File",
+            "line": 166,
+            "column": 23,
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0002",
+            "incidentId": "34a4f41a-e403-49b3-9c0b-c0d274fa33b5",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\web.config",
+            "locationKind": "File",
+            "targets": {
+              "AppService.Windows": {
+                "severity": "potential",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "potential",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "potential",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "potential",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "potential",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "potential",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "potential",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "potential",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Database.0003",
+            "incidentId": "b886e339-8475-48de-9c94-28cd4e3b2b25",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\web.config",
+            "locationKind": "File",
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          },
+          {
+            "ruleId": "Security.0002",
+            "incidentId": "e562d8bb-10cf-4f42-b0b2-baa8033f352b",
+            "location": "modernize-cc-assess\\019e44dc-48ac-75bd-a6d7-f20d29c56df1\\repos\\ZavaStatementService\\web.config",
+            "locationKind": "File",
+            "targets": {
+              "AppService.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppService.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AKS.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "ACA": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Linux": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceContainer.Windows": {
+                "severity": "optional",
+                "effort": 3
+              },
+              "AppServiceManagedInstance.Windows": {
+                "severity": "optional",
+                "effort": 3
+              }
+            },
+            "labels": []
+          }
+        ]
+      }
+    ],
+    "rules": {
+      "Security.0003": {
+        "id": "Security.0003",
+        "description": "Hardcoded sensitive data detected.\n\nIf you are targeting Managed Instance on Azure App Service, externalize secrets to Key Vault/App Configuration; use managed identity instead of passwords or embedded connection strings.\n\nWhile if targeting other Azure compute services:\n\nAvoid placing sensitive data such as passwords, ids, tokens etc., directly in config files and code since it compromises the security of your application.\n\nUse Azure App Configuration or Azure KeyVault to store secrets.",
+        "title": "Hardcoded sensitive data detected",
+        "severity": "optional",
+        "effort": 3,
+        "links": [
+          {
+            "title": "Centralized app configuration and security",
+            "url": "https://go.microsoft.com/fwlink/?LinkID=2250733"
+          }
+        ],
+        "labels": []
+      },
+      "Database.0003": {
+        "id": "Database.0003",
+        "description": "System.Data.SqlClient dependency is detected.\n\nWhile System.Data.SqlClient will work in Azure, the newer Microsoft.Data.SqlClient package is the primary .NET SQL client moving forward and receiving the latest features. For example, Microsoft.Data.SqlClient easily allows use of Azure Managed Identity from a connection string.",
+        "title": "System.Data.SqlClient dependency detected",
+        "severity": "optional",
+        "effort": 3,
+        "links": [
+          {
+            "url": "https://go.microsoft.com/fwlink/?LinkID=2242668"
+          }
+        ],
+        "labels": []
+      },
+      "Database.0002": {
+        "id": "Database.0002",
+        "description": "SQL database connection detected.\n\nEnsure the database is available/reachable on Azure.\n\nIf it is not, there are multiple ways you can move your data to Azure:\n    1. Migrate to Azure SQL Database.\n    2. Consider Azure SQL Managed Instance if you need features that are not available in Azure SQL Database and you don\u2019t want to use a VM.\n    3. Migrate your database servers directly to SQL Server on Azure VMs.\n\nTo assess database migration effort, you can use Azure Migrate tool, see the link below.",
+        "title": "SQL database connection detected",
+        "severity": "potential",
+        "effort": 3,
+        "links": [
+          {
+            "title": "Migrate SQL Server database to Azure",
+            "url": "https://go.microsoft.com/fwlink/?LinkID=2251731"
+          },
+          {
+            "title": "Azure SQL Managed Instance",
+            "url": "https://go.microsoft.com/fwlink/?LinkID=2251613"
+          },
+          {
+            "title": "Azure Migrate",
+            "url": "https://go.microsoft.com/fwlink/?linkid=2252410"
+          }
+        ],
+        "labels": []
+      },
+      "Security.0002": {
+        "id": "Security.0002",
+        "description": "Connection strings without configuration builders detected.  \n\n Keeping connection strings directly in the app is not the best practice and might introduce security risks, increased maintenance, scalability challenges or compliance standards (such as PCI DSS, GDPR, etc.). \n\n Instead, it is recommended to use configuration builders to get secrets from secure sources in Azure environment.",
+        "title": "Connection strings without configuration builders detected",
+        "severity": "optional",
+        "effort": 3,
+        "links": [
+          {
+            "title": "Configuration builders",
+            "url": "https://go.microsoft.com/fwlink/?LinkID=2250915"
+          },
+          {
+            "title": "Storing application secrets",
+            "url": "https://go.microsoft.com/fwlink/?LinkID=2250916"
+          },
+          {
+            "title": "Centralized app configuration and security",
+            "url": "https://go.microsoft.com/fwlink/?LinkID=2250733"
+          }
+        ],
+        "labels": []
+      }
+    }
+  }
+]
