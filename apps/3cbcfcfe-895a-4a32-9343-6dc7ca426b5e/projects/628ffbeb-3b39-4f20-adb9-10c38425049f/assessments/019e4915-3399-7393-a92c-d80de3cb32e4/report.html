@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assessment - ZavaStatementService</title>
+<style>
+:root {
+  --bg-primary: #ffffff;
+  --bg-card: #f8f9fa;
+  --bg-page: #f0f1f3;
+  --text-primary: #24292f;
+  --text-secondary: #57606a;
+  --text-muted: #6b7280;
+  --border-color: #d0d7de;
+  --border-light: #e1e4e8;
+  --link-color: #2563eb;
+  --color-mandatory: #E3008C;
+  --color-potential: #637CEF;
+  --color-optional: #A19F9D;
+  --font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  --font-mono: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-family); font-size: 13px; color: var(--text-primary); background: var(--bg-primary); line-height: 1.5; margin: 0; padding: 0; }
+a { color: var(--link-color); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Page layout ───────────────────────────────────────────── */
+.main { margin: 0; padding: 24px 32px; background: var(--bg-primary); }
+.back-link { color: var(--text-muted); font-size: 13px; margin-bottom: 16px; display: block; }
+h1 { font-weight: 600; font-size: 20px; color: var(--text-primary); margin-bottom: 20px; }
+
+/* ── Report cards (matches VS Code .vscode-report-card) ──── */
+.report-card { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 4px; padding: 12px; margin-bottom: 20px; }
+.report-card h2 { font-size: 14px; font-weight: 600; margin: 0; color: var(--text-primary); }
+.report-card-body { margin-top: 16px; }
+
+/* ── Application Information (two-column) ────────────────── */
+.app-info-container { display: flex; gap: 8px; flex-wrap: wrap; }
+.app-info-column { flex: 1; min-width: 200px; display: flex; flex-direction: column; gap: 8px; }
+.app-info-row { display: flex; align-items: baseline; }
+.app-info-label { width: 136px; flex-shrink: 0; font-weight: 600; color: var(--text-primary); }
+.app-info-value { flex: 1; color: var(--text-primary); }
+
+/* ── Issue Summary (pie charts + legend) ─────────────────── */
+.cards-container { display: flex; align-items: stretch; gap: 20px; flex-wrap: wrap; }
+.issue-summary-card { flex: 2; }
+.domain-summary-container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-around; }
+.domain-summary-item { flex: 1; min-width: 120px; text-align: center; padding: 0 16px; border-right: 1px solid var(--border-light); }
+.domain-summary-item:last-child { border-right: none; }
+.domain-summary-item h3 { font-size: 13px; font-weight: 600; color: var(--text-primary); margin-top: 8px; }
+.domain-summary-item .count { font-size: 12px; color: var(--text-secondary); }
+.criticality-legend { display: flex; flex-wrap: wrap; gap: 15px; padding-top: 12px; justify-content: center; }
+.criticality-legend .legend-item { display: flex; align-items: center; gap: 4px; font-size: 12px; color: var(--text-secondary); }
+.legend-swatch { display: inline-block; width: 1em; height: 1em; border-radius: 2px; }
+
+/* ── Issue list tables ───────────────────────────────────── */
+.issue-section { margin-top: 20px; }
+.issue-section h2 { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+.issue-table { width: 100%; border-collapse: collapse; table-layout: fixed; min-width: 600px; }
+.issue-table th { text-align: left; text-transform: uppercase; font-weight: 600; font-size: calc(13px * 0.875); padding: 6px 8px; background: var(--bg-card); border-bottom: 1px solid var(--border-color); color: var(--text-secondary); position: sticky; top: 0; z-index: 1; }
+.issue-table td { padding: 12px 8px; border-bottom: 1px solid var(--border-light); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle; }
+.col-issue { width: 55%; }
+.col-criticality { width: 25%; }
+.col-storypoint { width: 20%; }
+
+/* ── Target dropdown ─────────────────────────────────────── */
+.target-select-container { margin: 4px 0 16px 0; display: flex; align-items: center; gap: 8px; }
+.target-select-container label { font-weight: 600; color: var(--text-primary); font-size: 14px; }
+.target-select-container select { font-family: var(--font-family); font-size: 13px; padding: 4px 8px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary); cursor: pointer; }
+
+/* ── Filter bar ──────────────────────────────────────────── */
+.filter-bar { display: flex; flex-wrap: wrap; gap: 16px; margin: 16px 0 8px 0; align-items: center; }
+.multi-select { position: relative; display: inline-block; min-width: 140px; }
+.multi-select-btn { font-family: var(--font-family); font-size: 13px; padding: 4px 24px 4px 8px; border: 1px solid var(--border-color); border-radius: 4px; background: var(--bg-primary); color: var(--text-primary); cursor: pointer; width: 100%; text-align: left; position: relative; white-space: nowrap; }
+.multi-select-btn::after { content: '\25BE'; position: absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size: 11px; color: var(--text-secondary); }
+.multi-select-dropdown { display: none; position: absolute; top: 100%; left: 0; min-width: 100%; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 100; margin-top: 2px; }
+.multi-select.open .multi-select-dropdown { display: block; }
+.multi-select-option { display: flex; align-items: center; gap: 6px; padding: 5px 10px; cursor: pointer; font-size: 13px; white-space: nowrap; }
+.multi-select-option:hover { background: var(--bg-secondary); }
+.multi-select-option input[type=checkbox] { margin: 0; cursor: pointer; }
+.clear-filters { font-size: 12px; color: var(--link-color); cursor: pointer; margin-left: 4px; }
+
+/* ── Criticality labels (colored square + text) ──────────── */
+.crit-label { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; white-space: nowrap; }
+.crit-square { display: inline-block; width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+.crit-square-mandatory { background: var(--color-mandatory); }
+.crit-square-potential { background: var(--color-potential); }
+.crit-square-optional { background: var(--color-optional); }
+
+/* ── Expandable rows ─────────────────────────────────────── */
+.expand-btn { background: none; border: none; cursor: pointer; width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 11px; transition: transform 0.15s; padding: 0; vertical-align: middle; flex-shrink: 0; }
+.expand-btn.open { transform: rotate(90deg); }
+.issue-title-cell { display: flex; align-items: center; gap: 4px; }
+.detail-row td { padding: 0; border-bottom: 1px solid var(--border-light); white-space: normal; overflow: visible; text-overflow: clip; }
+.detail-content { display: flex; gap: 0; padding: 8px 8px 8px 32px; min-width: 0; }
+.file-list { flex: 0 0 50%; min-width: 0; overflow: hidden; }
+.file-list table { width: 100%; border-collapse: collapse; }
+.file-list th { font-size: calc(13px * 0.875); text-transform: uppercase; font-weight: 600; color: var(--text-secondary); padding: 6px 8px; border-bottom: 1px solid var(--border-color); text-align: left; height: 32px; }
+.file-list td { font-size: 13px; padding: 6px 8px; border-bottom: 1px solid var(--border-light); color: var(--text-primary); }
+.file-list .file-path { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 300px; display: block; }
+.file-list .position { font-family: var(--font-mono); font-size: 12px; color: var(--text-secondary); }
+.explanation-panel { flex: 1; padding-left: 16px; min-width: 0; overflow-wrap: break-word; word-wrap: break-word; }
+.explanation-panel h4 { font-size: calc(13px * 0.875); text-transform: uppercase; font-weight: 600; color: var(--text-secondary); padding: 6px 0; border-bottom: 1px solid var(--border-color); height: 32px; margin: 0; }
+.explanation-panel p { font-size: 13px; padding: 8px 0; color: var(--text-primary); line-height: 1.6; white-space: normal; word-break: break-word; }
+
+/* ── Experimental badge ──────────────────────────────────── */
+.badge-experimental { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; background: #fef9c3; color: #854d0e; vertical-align: middle; margin-left: 8px; cursor: default; }
+
+/* ── Footer ──────────────────────────────────────────────── */
+.footer { text-align: center; margin-top: 24px; color: var(--text-muted); font-size: 13px; }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 800px) {
+  .main { padding: 16px; }
+  .app-info-container { flex-direction: column; }
+  .domain-summary-container { flex-direction: column; }
+  .domain-summary-item { border-right: none; border-bottom: 1px solid var(--border-light); padding-bottom: 12px; }
+  .detail-content { flex-direction: column; }
+  .file-list { flex: none; width: 100%; }
+  .explanation-panel { padding-left: 0; padding-top: 8px; }
+}
+/* ── Tab navigation ──────────────────────────────────────── */
+.tab-nav { display: flex; gap: 0; border-bottom: 1px solid var(--border-color); margin-bottom: 28px; flex-wrap: wrap; }
+.tab-btn { background: none; border: none; border-bottom: 2px solid transparent; padding: 10px 18px; font-size: 13px; font-family: var(--font-family); color: var(--text-secondary); cursor: pointer; margin-bottom: -1px; white-space: nowrap; position: relative; }
+.tab-btn:hover { color: var(--text-primary); }
+.tab-btn.active { color: var(--link-color); border-bottom-color: var(--link-color); font-weight: 600; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── Tooltip on tab ──────────────────────────────────────── */
+.tab-btn[data-tooltip]::after { content: attr(data-tooltip); position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: #24292f; color: #ffffff; font-size: 12px; font-weight: 400; padding: 6px 10px; border-radius: 4px; white-space: normal; width: max-content; max-width: 260px; text-align: center; pointer-events: none; opacity: 0; transition: opacity 0.15s; z-index: 100; }
+.tab-btn[data-tooltip]:hover::after { opacity: 1; }
+
+/* ── Fact content — prose column ─────────────────────────── */
+.fact-content { max-width: 860px; margin: 0 auto; line-height: 1.75; color: var(--text-primary); font-size: 14px; }
+.fact-content h1 { font-size: 22px; font-weight: 700; margin: 0 0 6px 0; color: var(--text-primary); letter-spacing: -0.01em; }
+.fact-content h1 + p { margin-top: 6px; color: var(--text-secondary); font-size: 14px; margin-bottom: 24px; }
+.fact-content h2 { font-size: 17px; font-weight: 700; margin: 36px 0 12px 0; padding-bottom: 6px; border-bottom: 1px solid var(--border-color); color: var(--text-primary); letter-spacing: -0.01em; }
+.fact-content h3 { font-size: 14px; font-weight: 700; margin: 24px 0 8px 0; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.04em; font-size: 12px; color: var(--text-secondary); }
+.fact-content p { margin: 10px 0; color: var(--text-primary); }
+.fact-content ul, .fact-content ol { margin: 10px 0 10px 22px; }
+.fact-content li { margin: 5px 0; }
+.fact-content a { color: var(--link-color); }
+.fact-content a:hover { text-decoration: underline; }
+
+/* ── Fact tables ─────────────────────────────────────────── */
+.table-wrap { overflow-x: auto; margin: 16px 0; }
+.fact-content table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 13px; border-radius: 6px; overflow: hidden; border: 1px solid var(--border-color); }
+.fact-content thead { background: var(--bg-card); }
+.fact-content th { text-align: left; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; padding: 8px 14px; border-bottom: 1px solid var(--border-color); color: var(--text-secondary); }
+.fact-content td { padding: 9px 14px; border-bottom: 1px solid var(--border-light); vertical-align: top; color: var(--text-primary); }
+.fact-content tr:last-child td { border-bottom: none; }
+.fact-content tbody tr:hover { background: #f6f8fa; }
+
+/* ── Fact code ───────────────────────────────────────────── */
+.fact-content code { font-family: var(--font-mono); font-size: 12px; background: #f0f1f3; padding: 2px 6px; border-radius: 4px; color: #c7254e; }
+.fact-content pre { background: #f6f8fa; border: 1px solid var(--border-light); border-radius: 6px; padding: 14px 16px; overflow-x: auto; margin: 14px 0; }
+.fact-content pre code { background: none; color: var(--text-primary); padding: 0; border-radius: 0; }
+.fact-content hr { border: none; border-top: 1px solid var(--border-light); margin: 28px 0; }
+.fact-content strong { font-weight: 600; }
+.fact-content em { font-style: italic; }
+.fact-content blockquote { border-left: 3px solid var(--border-color); margin: 12px 0; padding: 4px 16px; color: var(--text-secondary); }
+.fact-unavailable { padding: 32px 0; }
+.fact-unavailable h3 { font-size: 16px; font-weight: 600; color: var(--text-primary); text-transform: none; letter-spacing: 0; margin: 0 0 12px 0; }
+.fact-unavailable p { margin: 0 0 8px 0; color: var(--text-secondary); }
+.fact-unavailable ol, .fact-unavailable ul { margin: 0 0 0 22px; color: var(--text-primary); }
+.fact-unavailable li { margin: 6px 0; }
+
+/* ── Mermaid diagram card ─────────────────────────────────── */
+.mermaid { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 8px; padding: 24px 16px; margin: 20px 0; overflow-x: auto; text-align: center; cursor: pointer; position: relative; }
+.mermaid:hover { border-color: var(--border-color); }
+.mermaid svg { max-width: 100%; height: auto !important; display: inline-block; }
+.mermaid-zoom-hint { position: absolute; top: 8px; right: 10px; font-size: 11px; color: var(--text-muted); opacity: 0; transition: opacity 0.15s; pointer-events: none; }
+.mermaid:hover .mermaid-zoom-hint { opacity: 1; }
+
+/* ── Diagram lightbox ────────────────────────────────────── */
+.diagram-lightbox { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.7); backdrop-filter: blur(2px); align-items: center; justify-content: center; cursor: zoom-out; padding: 48px 32px; }
+.diagram-lightbox.open { display: flex; }
+.diagram-lightbox-inner { background: #ffffff; border-radius: 10px; padding: 32px; width: 88vw; max-height: 88vh; overflow: hidden; cursor: default; box-shadow: 0 24px 64px rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; }
+.diagram-lightbox-inner svg { width: 100% !important; height: auto !important; max-height: 76vh; display: block; }
+.diagram-lightbox-close { position: fixed; top: 20px; right: 24px; background: #ffffff; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-primary); box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 1001; }
+.diagram-lightbox-close:hover { background: var(--bg-card); }
+.diagram-lightbox-hint { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.55); color: #ffffff; font-size: 12px; padding: 6px 14px; border-radius: 20px; pointer-events: none; white-space: nowrap; z-index: 1001; }
+</style>
+<script>
+window.__mermaidPending = [];
+window.__mermaidReady = false;
+window.__renderMermaidIn = function(container) {
+  // Until the real implementation overrides this (after the ES module import
+  // resolves), just queue the container so we can render it later.
+  if (container) { window.__mermaidPending.push(container); }
+};
+</script>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+mermaid.initialize({ startOnLoad: false, theme: 'default', flowchart: { useMaxWidth: true }, sequence: { useMaxWidth: true } });
+
+// Real implementation: actually run mermaid on the unprocessed diagrams in the
+// given container (only ones not already rendered). Adds a "Click to expand"
+// hint span after each successful render so the lightbox affordance is
+// discoverable.
+window.__renderMermaidIn = function(container) {
+  var nodes = container ? container.querySelectorAll('.mermaid:not([data-processed])') : [];
+  if (nodes.length > 0) {
+    mermaid.run({ nodes: Array.from(nodes) }).then(function() {
+      nodes.forEach(function(node) {
+        if (!node.querySelector('.mermaid-zoom-hint')) {
+          var hint = document.createElement('span');
+          hint.className = 'mermaid-zoom-hint';
+          hint.textContent = 'Click to expand';
+          node.appendChild(hint);
+        }
+      });
+    });
+  }
+};
+
+// Drain any containers that were queued by the shim while mermaid was loading.
+// Use a Set to dedupe in case a container was both queued and is also the
+// initial-active panel below.
+var drained = new Set();
+(window.__mermaidPending || []).forEach(function(c) {
+  if (!drained.has(c)) { drained.add(c); window.__renderMermaidIn(c); }
+});
+window.__mermaidPending = [];
+window.__mermaidReady = true;
+
+// Render diagrams visible on initial load (the active tab panel(s) may not have
+// been queued by anyone — DOMContentLoaded handlers run before this if the
+// module is cached, after this if it's not, so handle both cases here).
+function renderActivePanels() {
+  document.querySelectorAll('.tab-panel.active').forEach(function(p) {
+    if (!drained.has(p)) { drained.add(p); window.__renderMermaidIn(p); }
+  });
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', renderActivePanels);
+} else {
+  renderActivePanels();
+}
+</script>
+</head><body>
+<div id="diagram-lightbox" class="diagram-lightbox" role="dialog" aria-modal="true">
+  <button class="diagram-lightbox-close" id="diagram-lightbox-close" aria-label="Close">&#x2715;</button>
+  <div class="diagram-lightbox-hint">Scroll to zoom &nbsp;·&nbsp; Drag to pan &nbsp;·&nbsp; Double-click to reset</div>
+  <div class="diagram-lightbox-inner" id="diagram-lightbox-inner"></div>
+</div>
+<div class="main">
+<a class="back-link" href="../../index.html">&#8592; Back to aggregate dashboard</a>
+<h1>ZavaStatementService</h1>
+<div class="report-card">
+  <h2>Application Information</h2>
+  <div class="report-card-body">
+    <div class="app-info-container">
+      <div class="app-info-column">
+        <div class="app-info-row"><span class="app-info-label">Application Name</span><span class="app-info-value">ZavaStatementService</span></div>
+        <div class="app-info-row"><span class="app-info-label">Effort</span><span class="app-info-value" id="effort-display">S (total story points: 12)</span></div>
+      </div>
+      <div class="app-info-column">
+        <div class="app-info-row"><span class="app-info-label">Build Tools</span><span class="app-info-value">MSBuild</span></div>
+        <div class="app-info-row"><span class="app-info-label">Frameworks</span><span class="app-info-value">.NETFramework,Version=v4.8</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+<nav class="tab-nav">
+  <button class="tab-btn active" data-tab="tab-issues" data-tooltip="Issues detected in the source code">Issues</button>
+  <button class="tab-btn" data-tab="tab-arch" data-tooltip="How the app&#39;s layers connect — from UI to data.">Architecture</button>
+  <button class="tab-btn" data-tab="tab-api" data-tooltip="Endpoints exposed by this app and how services communicate.">API Contracts</button>
+  <button class="tab-btn" data-tab="tab-config" data-tooltip="Environment settings, runtime profiles, and deployment manifests.">Configuration</button>
+  <button class="tab-btn" data-tab="tab-workflows" data-tooltip="Domain entities and the core flows users move through.">Business Workflows</button>
+  <button class="tab-btn" data-tab="tab-deps" data-tooltip="Libraries and frameworks this app depends on, grouped by category.">Dependencies</button>
+  <button class="tab-btn" data-tab="tab-data" data-tooltip="Database schema, entity relationships, and persistence behavior.">Data Model</button>
+</nav>
+<div id="tab-issues" class="tab-panel active">
+<div class="target-select-container">
+  <label for="target-select">Target Compute Service:</label>
+  <select id="target-select" onchange="onTargetChange(this.value)">
+    <option value="AppService.Windows">Azure App Service</option>
+    <option value="AppService.Linux">Azure Kubernetes Service</option>
+    <option value="AKS.Linux">Azure Container Apps</option>
+    <option value="AKS.Windows">Azure App Service Container</option>
+    <option value="ACA">Azure App Service Managed Instance</option>
+  </select>
+</div>
+<div class="report-card">
+  <h2>Issue Summary</h2>
+  <div class="report-card-body">
+    <div class="domain-summary-container" id="donut-container">
+      <div class="domain-summary-item">
+<svg viewBox="0 0 100 100" width="100" height="100" style="display:block;margin:0 auto;transform:rotate(-90deg);">
+  <circle cx="50" cy="50" r="35" fill="none" stroke="var(--color-potential)" stroke-width="15" stroke-dasharray="53.48 219.91" stroke-dashoffset="-0.00"/>
+  <circle cx="50" cy="50" r="35" fill="none" stroke="var(--color-optional)" stroke-width="15" stroke-dasharray="163.43 219.91" stroke-dashoffset="-54.98"/>
+</svg>
+
+        <h3>Cloud Readiness</h3>
+        <div class="count">4 issues</div>
+      </div>
+    </div>
+    <div class="criticality-legend">
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--color-mandatory)"></span>Mandatory</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--color-potential)"></span>Potential</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--color-optional)"></span>Optional</div>
+    </div>
+  </div>
+</div>
+<div class="filter-bar" id="filter-bar">
+  <div class="multi-select" id="criticality-ms">
+    <button class="multi-select-btn" onclick="toggleMultiSelect('criticality-ms')">Criticality</button>
+    <div class="multi-select-dropdown">
+      <label class="multi-select-option"><input type="checkbox" value="potential" onchange="onMultiSelectChange('criticality-ms','Criticality')"/> Potential</label>
+      <label class="multi-select-option"><input type="checkbox" value="optional" onchange="onMultiSelectChange('criticality-ms','Criticality')"/> Optional</label>
+    </div>
+  </div>
+  <a class="clear-filters" href="javascript:void(0)" onclick="clearAllFilters()">Clear all</a>
+</div>
+<div class="issue-section" data-domain="cloud-readiness">
+  <h2>Cloud Readiness</h2>
+  <table class="issue-table">
+    <colgroup><col class="col-issue"/><col class="col-criticality"/><col class="col-storypoint"/></colgroup>
+    <thead><tr><th>Issue Category</th><th>Criticality</th><th>Story Point</th></tr></thead>
+    <tbody>
+    <tr class="issue-row" data-criticality="potential" data-targets='{"AppService.Windows":{"effort":3,"severity":"potential"},"AppService.Linux":{"effort":3,"severity":"potential"},"AKS.Linux":{"effort":3,"severity":"potential"},"AKS.Windows":{"effort":3,"severity":"potential"},"ACA":{"effort":3,"severity":"potential"},"AppServiceContainer.Linux":{"effort":3,"severity":"potential"},"AppServiceContainer.Windows":{"effort":3,"severity":"potential"},"AppServiceManagedInstance.Windows":{"effort":3,"severity":"potential"}}' data-default-effort="3" data-default-severity="potential" data-rule="Database.0002" onclick="toggleRow('row-cloudreadiness-0', this)" style="cursor:pointer;">
+      <td style="white-space:normal;"><div class="issue-title-cell"><button class="expand-btn" id="btn-row-cloudreadiness-0">&#x276F;</button> SQL database connection detected</div></td>
+      <td class="crit-cell"><span class="crit-label"><span class="crit-square crit-square-potential"></span>Potential</span></td>
+      <td class="sp-cell">3</td>
+    </tr>
+    <tr class="detail-row" id="row-cloudreadiness-0" style="display:none;">
+      <td colspan="3">
+        <div class="detail-content">
+          <div class="file-list">
+            <table><colgroup><col style="width:70%"/><col style="width:30%"/></colgroup>
+            <thead><tr><th>File</th><th>Position</th></tr></thead><tbody>
+            <tr><td><span class="file-path" title="web.config">web.config</span></td><td><span class="position"></span></td></tr>
+            </tbody></table>
+          </div>
+          <div class="explanation-panel">
+            <h4>Explanation</h4>
+            <div><p>SQL database connection detected.</p><p>Ensure the database is available/reachable on Azure.</p><p>If it is not, there are multiple ways you can move your data to Azure:<br/>    1. Migrate to Azure SQL Database.<br/>    2. Consider Azure SQL Managed Instance if you need features that are not available in Azure SQL Database and you don’t want to use a VM.<br/>    3. Migrate your database servers directly to SQL Server on Azure VMs.</p><p>To assess database migration effort, you can use Azure Migrate tool, see the link below.</p></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr class="issue-row" data-criticality="optional" data-targets='{"AppService.Windows":{"effort":3,"severity":"optional"},"AppService.Linux":{"effort":3,"severity":"optional"},"AKS.Linux":{"effort":3,"severity":"optional"},"AKS.Windows":{"effort":3,"severity":"optional"},"ACA":{"effort":3,"severity":"optional"},"AppServiceContainer.Linux":{"effort":3,"severity":"optional"},"AppServiceContainer.Windows":{"effort":3,"severity":"optional"},"AppServiceManagedInstance.Windows":{"effort":3,"severity":"mandatory"}}' data-default-effort="3" data-default-severity="optional" data-rule="Security.0003" onclick="toggleRow('row-cloudreadiness-1', this)" style="cursor:pointer;">
+      <td style="white-space:normal;"><div class="issue-title-cell"><button class="expand-btn" id="btn-row-cloudreadiness-1">&#x276F;</button> Hardcoded sensitive data detected</div></td>
+      <td class="crit-cell"><span class="crit-label"><span class="crit-square crit-square-optional"></span>Optional</span></td>
+      <td class="sp-cell">3</td>
+    </tr>
+    <tr class="detail-row" id="row-cloudreadiness-1" style="display:none;">
+      <td colspan="3">
+        <div class="detail-content">
+          <div class="file-list">
+            <table><colgroup><col style="width:70%"/><col style="width:30%"/></colgroup>
+            <thead><tr><th>File</th><th>Position</th></tr></thead><tbody>
+            <tr><td><span class="file-path" title="DbConfig.cs">DbConfig.cs</span></td><td><span class="position">Line 22, Col 20</span></td></tr>
+            <tr><td><span class="file-path" title="DbConfig.cs">DbConfig.cs</span></td><td><span class="position">Line 13, Col 47</span></td></tr>
+            <tr><td><span class="file-path" title="DbConfig.cs">DbConfig.cs</span></td><td><span class="position">Line 13, Col 62</span></td></tr>
+            </tbody></table>
+          </div>
+          <div class="explanation-panel">
+            <h4>Explanation</h4>
+            <div><p>Hardcoded sensitive data detected.</p><p>If you are targeting Managed Instance on Azure App Service, externalize secrets to Key Vault/App Configuration; use managed identity instead of passwords or embedded connection strings.</p><p>While if targeting other Azure compute services:</p><p>Avoid placing sensitive data such as passwords, ids, tokens etc., directly in config files and code since it compromises the security of your application.</p><p>Use Azure App Configuration or Azure KeyVault to store secrets.</p></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr class="issue-row" data-criticality="optional" data-targets='{"AppService.Windows":{"effort":3,"severity":"optional"},"AppService.Linux":{"effort":3,"severity":"optional"},"AKS.Linux":{"effort":3,"severity":"optional"},"AKS.Windows":{"effort":3,"severity":"optional"},"ACA":{"effort":3,"severity":"optional"},"AppServiceContainer.Linux":{"effort":3,"severity":"optional"},"AppServiceContainer.Windows":{"effort":3,"severity":"optional"},"AppServiceManagedInstance.Windows":{"effort":3,"severity":"optional"}}' data-default-effort="3" data-default-severity="optional" data-rule="Database.0003" onclick="toggleRow('row-cloudreadiness-2', this)" style="cursor:pointer;">
+      <td style="white-space:normal;"><div class="issue-title-cell"><button class="expand-btn" id="btn-row-cloudreadiness-2">&#x276F;</button> System.Data.SqlClient dependency detected</div></td>
+      <td class="crit-cell"><span class="crit-label"><span class="crit-square crit-square-optional"></span>Optional</span></td>
+      <td class="sp-cell">3</td>
+    </tr>
+    <tr class="detail-row" id="row-cloudreadiness-2" style="display:none;">
+      <td colspan="3">
+        <div class="detail-content">
+          <div class="file-list">
+            <table><colgroup><col style="width:70%"/><col style="width:30%"/></colgroup>
+            <thead><tr><th>File</th><th>Position</th></tr></thead><tbody>
+            <tr><td><span class="file-path" title="web.config">web.config</span></td><td><span class="position"></span></td></tr>
+            </tbody></table>
+          </div>
+          <div class="explanation-panel">
+            <h4>Explanation</h4>
+            <div><p>System.Data.SqlClient dependency is detected.</p><p>While System.Data.SqlClient will work in Azure, the newer Microsoft.Data.SqlClient package is the primary .NET SQL client moving forward and receiving the latest features. For example, Microsoft.Data.SqlClient easily allows use of Azure Managed Identity from a connection string.</p></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr class="issue-row" data-criticality="optional" data-targets='{"AppService.Windows":{"effort":3,"severity":"optional"},"AppService.Linux":{"effort":3,"severity":"optional"},"AKS.Linux":{"effort":3,"severity":"optional"},"AKS.Windows":{"effort":3,"severity":"optional"},"ACA":{"effort":3,"severity":"optional"},"AppServiceContainer.Linux":{"effort":3,"severity":"optional"},"AppServiceContainer.Windows":{"effort":3,"severity":"optional"},"AppServiceManagedInstance.Windows":{"effort":3,"severity":"optional"}}' data-default-effort="3" data-default-severity="optional" data-rule="Security.0002" onclick="toggleRow('row-cloudreadiness-3', this)" style="cursor:pointer;">
+      <td style="white-space:normal;"><div class="issue-title-cell"><button class="expand-btn" id="btn-row-cloudreadiness-3">&#x276F;</button> Connection strings without configuration builders detected</div></td>
+      <td class="crit-cell"><span class="crit-label"><span class="crit-square crit-square-optional"></span>Optional</span></td>
+      <td class="sp-cell">3</td>
+    </tr>
+    <tr class="detail-row" id="row-cloudreadiness-3" style="display:none;">
+      <td colspan="3">
+        <div class="detail-content">
+          <div class="file-list">
+            <table><colgroup><col style="width:70%"/><col style="width:30%"/></colgroup>
+            <thead><tr><th>File</th><th>Position</th></tr></thead><tbody>
+            <tr><td><span class="file-path" title="web.config">web.config</span></td><td><span class="position"></span></td></tr>
+            </tbody></table>
+          </div>
+          <div class="explanation-panel">
+            <h4>Explanation</h4>
+            <div><p>Connection strings without configuration builders detected.  </p><p> Keeping connection strings directly in the app is not the best practice and might introduce security risks, increased maintenance, scalability challenges or compliance standards (such as PCI DSS, GDPR, etc.). </p><p> Instead, it is recommended to use configuration builders to get secrets from secure sources in Azure environment.</p></div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</div><!-- #tab-issues -->
+<div id="tab-arch" class="tab-panel">
+  <div class="fact-content"><h1 id="architecture-diagram">Architecture Diagram</h1>
+<p>ZavaStatementService is a .NET Framework 4.8 WCF (SOAP) web service that generates, stores, and retrieves monthly bank account statements, backed by a SQL Server relational database.</p>
+<h2 id="application-architecture">Application Architecture</h2>
+<div class="mermaid">
+flowchart TD
+    subgraph Client["Client Layer"]
+        SoapClient["SOAP Client (basicHttpBinding)"]
+        HttpClient["HTTP Client (health check)"]
+    end
+    subgraph App["Application Layer - .NET Framework 4.8 / WCF"]
+        WcfEndpoint["WCF Endpoint - IStatementService"]
+        StatementSvc["StatementService"]
+        HealthHandler["HealthHandler (IHttpHandler)"]
+        DbConfig["DbConfig (Connection Factory)"]
+    end
+    subgraph Data["Data Layer"]
+        SqlClient["System.Data.SqlClient (ADO.NET)"]
+        DB[("SQL Server - ZavaBankDB")]
+    end
+    subgraph Runtime["Runtime / Infrastructure"]
+        Mono["Mono 6.12 + XSP4"]
+        Docker["Docker Container (port 8080)"]
+    end
+
+    SoapClient -->|"SOAP/HTTP requests"| WcfEndpoint
+    HttpClient -->|"GET /health"| HealthHandler
+    WcfEndpoint -->|"delegates"| StatementSvc
+    StatementSvc -->|"builds connection string"| DbConfig
+    StatementSvc -->|"ADO.NET queries"| SqlClient
+    SqlClient -->|"SQL queries / DML"| DB
+    App --> Mono
+    Mono --> Docker
+</div>
+<h3 id="technology-stack-summary">Technology Stack Summary</h3>
+<div class="table-wrap"><table><thead><tr>
+<th>Layer</th><th>Technology</th><th>Version</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>Service Contract</td><td>WCF (System.ServiceModel)</td><td>.NET 4.8</td><td>Defines SOAP service operations and data contracts</td></tr>
+<tr><td>Service Implementation</td><td>ASP.NET / WCF</td><td>.NET 4.8</td><td>Business logic for statement generation and retrieval</td></tr>
+<tr><td>Data Access</td><td>ADO.NET (System.Data.SqlClient)</td><td>.NET 4.8</td><td>Direct SQL execution against SQL Server</td></tr>
+<tr><td>Database</td><td>SQL Server</td><td>2017+ (via Docker Compose)</td><td>Relational store for accounts, transactions, and statements</td></tr>
+<tr><td>Health Check</td><td>System.Web IHttpHandler</td><td>.NET 4.8</td><td>Lightweight HTTP health probe at <code>/health</code></td></tr>
+<tr><td>Runtime</td><td>Mono + XSP4</td><td>Mono 6.12</td><td>Cross-platform hosting on Linux containers</td></tr>
+<tr><td>Container</td><td>Docker</td><td>—</td><td>Container packaging and port-forwarding (8080)</td></tr>
+</tbody></table></div>
+<h3 id="data-storage-external-services">Data Storage &amp; External Services</h3>
+<p>The application has a single data dependency: a <strong>SQL Server</strong> instance (<code>ZavaBankDB</code>) accessed via <strong>ADO.NET</strong> (<code>SqlConnection</code> / <code>SqlCommand</code>). Connection details are resolved first from environment variables (<code>DB_HOST</code>, <code>DB_PORT</code>, <code>DB_NAME</code>, <code>DB_USER</code>, <code>DB_PASSWORD</code>) and fall back to the <code>ZavaBankDb</code> connection string in <code>web.config</code>. There are no caches, message brokers, or other external API integrations.</p>
+<h3 id="key-architectural-decisions">Key Architectural Decisions</h3>
+<ul>
+<li><strong>WCF over basicHttpBinding</strong> — service operations are exposed as a SOAP endpoint, making the service callable by any WS-* compatible client without a proprietary SDK.</li>
+<li><strong>Raw ADO.NET without an ORM</strong> — <code>SqlConnection</code> and <code>SqlCommand</code> are used directly; there is no Entity Framework or Dapper layer, giving full control over SQL but requiring manual schema management (e.g., <code>EnsureGeneratedStatementsTableExists</code>).</li>
+<li><strong>Environment-variable-first configuration</strong> — <code>DbConfig</code> prefers environment variables over <code>web.config</code> connection strings, enabling twelve-factor-style deployment in containers.</li>
+</ul>
+<h2 id="component-relationships">Component Relationships</h2>
+<div class="mermaid">
+flowchart LR
+    subgraph Contracts["Service Contracts"]
+        IStatSvc["IStatementService"]
+        GenResp["GeneratedStatementResponse"]
+        HistResp["StatementHistoryResponse"]
+        DetResp["StatementDetailResponse"]
+        HistItem["StatementHistoryItem"]
+    end
+    subgraph Business["Business Logic"]
+        StatSvc["StatementService"]
+    end
+    subgraph DataAccess["Data Access"]
+        DbConf["DbConfig"]
+        SqlConn["SqlConnection / SqlCommand"]
+    end
+    subgraph Infra["Infrastructure"]
+        Health["HealthHandler"]
+        WcfRuntime["WCF Runtime (web.config)"]
+    end
+
+    IStatSvc -->|"implemented by"| StatSvc
+    StatSvc -->|"returns"| GenResp
+    StatSvc -->|"returns"| HistResp
+    StatSvc -->|"returns"| DetResp
+    HistResp -->|"contains"| HistItem
+    StatSvc -->|"resolves connection"| DbConf
+    DbConf -->|"provides connection string"| SqlConn
+    StatSvc -->|"executes queries via"| SqlConn
+    WcfRuntime -->|"hosts"| StatSvc
+    WcfRuntime -.->|"routes /health"| Health
+</div>
+<h3 id="component-inventory">Component Inventory</h3>
+<div class="table-wrap"><table><thead><tr>
+<th>Component</th><th>Layer</th><th>Type</th><th>Responsibility</th></tr></thead><tbody>
+<tr><td>IStatementService</td><td>Service Contracts</td><td>WCF ServiceContract interface</td><td>Declares the three SOAP operations: GenerateStatement, GetStatementHistory, GetStatement</td></tr>
+<tr><td>StatementService</td><td>Business Logic</td><td>WCF Service implementation</td><td>Validates inputs, executes SQL queries, builds HTML statement content, persists requests and archives</td></tr>
+<tr><td>GeneratedStatementResponse</td><td>Service Contracts</td><td>WCF DataContract</td><td>Response DTO carrying statement ID, account info, and rendered HTML</td></tr>
+<tr><td>StatementHistoryResponse</td><td>Service Contracts</td><td>WCF DataContract</td><td>Response DTO wrapping a list of StatementHistoryItem records</td></tr>
+<tr><td>StatementDetailResponse</td><td>Service Contracts</td><td>WCF DataContract</td><td>Response DTO for a single statement with full HTML content</td></tr>
+<tr><td>StatementHistoryItem</td><td>Service Contracts</td><td>WCF DataContract</td><td>Lightweight summary record (ID, account, month, year, generated date)</td></tr>
+<tr><td>DbConfig</td><td>Data Access</td><td>Static configuration helper</td><td>Resolves SQL Server connection string from environment variables or web.config</td></tr>
+<tr><td>HealthHandler</td><td>Infrastructure</td><td>ASP.NET IHttpHandler</td><td>Returns &quot;OK&quot; for GET /health — used by container orchestrators for liveness probes</td></tr>
+</tbody></table></div>
+</div>
+</div>
+<div id="tab-api" class="tab-panel">
+  <div class="fact-content"><h1 id="api-service-communication-contracts">API &amp; Service Communication Contracts</h1>
+<p>ZavaStatementService exposes three SOAP operations over a single WCF <code>basicHttpBinding</code> endpoint, plus one HTTP health-check handler — all hosted in a single deployable unit.</p>
+<h2 id="service-catalog">Service Catalog</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Service</th><th>Port</th><th>Category</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>ZavaStatementService (WCF)</td><td>8080</td><td>Business</td><td>Generates, stores, and retrieves HTML bank account statements for monthly billing periods</td></tr>
+<tr><td>Health endpoint</td><td>8080</td><td>Observability</td><td>Returns &quot;OK&quot; for container liveness probes at <code>GET /health</code></td></tr>
+</tbody></table></div>
+<h2 id="api-endpoints-inventory">API Endpoints Inventory</h2>
+<p>&gt; <strong>Note:</strong> This is a WCF SOAP service. Operations are invoked via SOAP envelope <code>POST</code> to the service root (<code>/ZavaStatementService.svc</code>), not individual REST paths. The table below represents each <code>[OperationContract]</code> as a named SOAP action.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Service</th><th>SOAP Action</th><th>Input Parameters</th><th>Response Type</th><th>Notes</th></tr></thead><tbody>
+<tr><td>StatementService</td><td>GenerateStatement</td><td><code>accountId</code> (int), <code>month</code> (int), <code>year</code> (int)</td><td><code>GeneratedStatementResponse</code></td><td>Generates and persists a monthly statement; returns full HTML content</td></tr>
+<tr><td>StatementService</td><td>GetStatementHistory</td><td><code>accountId</code> (int)</td><td><code>StatementHistoryResponse</code></td><td>Returns up to 100 most recent statement summaries for an account</td></tr>
+<tr><td>StatementService</td><td>GetStatement</td><td><code>statementId</code> (int)</td><td><code>StatementDetailResponse</code></td><td>Retrieves a previously generated statement by ID, including full HTML</td></tr>
+</tbody></table></div>
+<h2 id="management-observability-endpoints">Management &amp; Observability Endpoints</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Service</th><th>Endpoint</th><th>Method</th><th>Response</th><th>Custom Metrics</th></tr></thead><tbody>
+<tr><td>ZavaStatementService</td><td><code>/health</code></td><td>GET</td><td><code>200 OK</code> — plain text &quot;OK&quot;</td><td>None</td></tr>
+<tr><td>WCF Metadata</td><td><code>/ZavaStatementService.svc?wsdl</code></td><td>GET</td><td>WSDL document</td><td>Enabled via <code>serviceMetadata httpGetEnabled=&quot;true&quot;</code></td></tr>
+</tbody></table></div>
+<h2 id="dtos-contracts">DTOs &amp; Contracts</h2>
+<p>All data contracts are <strong>mutable C# classes</strong> decorated with <code>[DataContract]</code> / <code>[DataMember]</code> attributes for WCF XML serialization. There are no immutable records, OpenAPI/Swagger specs, protobuf schemas, or GraphQL schemas.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Class</th><th>API Role</th><th>Notes</th></tr></thead><tbody>
+<tr><td><code>GeneratedStatementResponse</code></td><td>Response — GenerateStatement</td><td>Carries statement ID, account metadata, and rendered HTML content</td></tr>
+<tr><td><code>StatementHistoryResponse</code></td><td>Response — GetStatementHistory</td><td>Wrapper containing the account ID and a list of <code>StatementHistoryItem</code></td></tr>
+<tr><td><code>StatementHistoryItem</code></td><td>Embedded in StatementHistoryResponse</td><td>Summary record: statement ID, account ID, month, year, generated timestamp</td></tr>
+<tr><td><code>StatementDetailResponse</code></td><td>Response — GetStatement</td><td>Full statement record including HTML content; mirrors <code>GeneratedStatementResponse</code></td></tr>
+</tbody></table></div>
+<p>Serialization is handled entirely by <strong>WCF&#39;s built-in <code>DataContractSerializer</code></strong> (XML). There is no JSON serialization, no System.Text.Json, and no Newtonsoft.Json. For full field-level details see <code>data-architecture.md</code>.</p>
+<h2 id="communication-patterns">Communication Patterns</h2>
+<p><strong>Synchronous communication only.</strong> All three service operations are synchronous request/reply over <code>basicHttpBinding</code> (SOAP 1.1 over HTTP). There is no asynchronous messaging, event-driven pattern, message queue, or pub/sub integration.</p>
+<p><strong>Data access</strong> is direct ADO.NET over TCP to SQL Server — synchronous <code>SqlCommand.ExecuteReader()</code> / <code>ExecuteScalar()</code> calls with no connection pooling configuration beyond ADO.NET defaults.</p>
+<p><strong>Resilience patterns:</strong> None. There is no retry policy, circuit breaker, timeout configuration, or bulkhead. A SQL Server connection failure will propagate directly to the SOAP client as a <code>FaultException</code>.</p>
+<p><strong>Service discovery:</strong> None. The SQL Server address is resolved from environment variables (<code>DB_HOST</code>, <code>DB_PORT</code>) or a hardcoded <code>web.config</code> connection string (<code>Server=sqlserver,1433</code>). There is no Consul, Eureka, or Kubernetes DNS-based service discovery.</p>
+<p><strong>API gateway:</strong> None. The WCF service is directly client-facing with no gateway, load balancer, or reverse proxy defined in the repository.</p>
+<p><strong>Security posture:</strong> No authentication or TLS is configured. The WCF endpoint uses <code>basicHttpBinding</code> with no <code>&lt;security&gt;</code> element, meaning transport security (HTTPS) and message-level security are both disabled. All three operations and the health endpoint are publicly accessible with no authentication or authorization checks. The <code>web.config</code> allows anonymous access to the <code>/health</code> path explicitly (<code>&lt;allow users=&quot;*&quot; /&gt;</code>).</p>
+<h2 id="service-technology-matrix">Service Technology Matrix</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Service</th><th>Web Framework</th><th>Data Access</th><th>Discovery</th><th>Gateway</th><th>Health Check</th><th>Cache</th><th>Metrics</th></tr></thead><tbody>
+<tr><td>ZavaStatementService</td><td>WCF / System.Web</td><td>ADO.NET (SqlClient)</td><td>None</td><td>None</td><td>GET /health (IHttpHandler)</td><td>None</td><td>None</td></tr>
+</tbody></table></div>
+<h2 id="service-communication-sequence">Service Communication Sequence</h2>
+<div class="mermaid">
+sequenceDiagram
+    participant Client as "SOAP Client"
+    participant WCF as "WCF Runtime"
+    participant Svc as "StatementService"
+    participant DB as "SQL Server (ZavaBankDB)"
+
+    Note over Client,WCF: GenerateStatement flow
+    Client->>WCF: POST /ZavaStatementService.svc (GenerateStatement)
+    WCF->>Svc: GenerateStatement(accountId, month, year)
+    Svc->>Svc: ValidatePeriod(accountId, month, year)
+    Svc->>DB: SELECT account + customer info
+    DB-->>Svc: accountNumber, balance, customerName
+    Svc->>DB: SELECT transactions for period
+    DB-->>Svc: transaction rows
+    Svc->>Svc: BuildHtmlStatement + ComputeChecksum
+    Svc->>DB: INSERT INTO StatementRequests
+    DB-->>Svc: requestId
+    Svc->>DB: INSERT INTO GeneratedStatements
+    DB-->>Svc: statementId
+    Svc->>DB: INSERT INTO StatementArchive
+    DB-->>Svc: OK
+    Svc-->>WCF: GeneratedStatementResponse
+    WCF-->>Client: SOAP response (statementId + HtmlContent)
+
+    Note over Client,WCF: GetStatementHistory flow
+    Client->>WCF: POST /ZavaStatementService.svc (GetStatementHistory)
+    WCF->>Svc: GetStatementHistory(accountId)
+    Svc->>DB: SELECT TOP 100 from GeneratedStatements
+    DB-->>Svc: statement summary rows
+    Svc-->>WCF: StatementHistoryResponse
+    WCF-->>Client: SOAP response (list of StatementHistoryItem)
+
+    Note over Client,WCF: GetStatement flow
+    Client->>WCF: POST /ZavaStatementService.svc (GetStatement)
+    WCF->>Svc: GetStatement(statementId)
+    Svc->>DB: SELECT from GeneratedStatements WHERE StatementID=?
+    alt Statement found
+        DB-->>Svc: statement row
+        Svc-->>WCF: StatementDetailResponse
+        WCF-->>Client: SOAP response (HtmlContent)
+    else Not found
+        Svc-->>WCF: FaultException("Statement was not found.")
+        WCF-->>Client: SOAP Fault
+    end
+</div>
+</div>
+</div>
+<div id="tab-config" class="tab-panel">
+  <div class="fact-content"><h1 id="configuration-externalized-settings-inventory">Configuration &amp; Externalized Settings Inventory</h1>
+<p>ZavaStatementService has a minimal configuration surface comprising two files (<code>web.config</code> and <code>Dockerfile</code>) and a set of environment variables for database connectivity — with no external config server, secret store integration, or multiple runtime profiles.</p>
+<h2 id="configuration-sources">Configuration Sources</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Source</th><th>Type</th><th>Path/Location</th><th>Notes</th></tr></thead><tbody>
+<tr><td><code>web.config</code></td><td>XML application config</td><td><code>/web.config</code></td><td>Primary runtime config: WCF service bindings, connection string fallback, HTTP handlers, compilation settings</td></tr>
+<tr><td><code>Dockerfile</code></td><td>Container build &amp; runtime</td><td><code>/Dockerfile</code></td><td>Defines base image, build steps, exposed port, and container entry point</td></tr>
+<tr><td>Environment variables</td><td>Runtime injection</td><td>Host/container environment</td><td>Override DB connection parameters at runtime (see Properties Inventory)</td></tr>
+</tbody></table></div>
+<p>No Spring Cloud Config, Azure App Configuration, AWS AppConfig, Consul KV, HashiCorp Vault, Azure KeyVault, or other external configuration repositories are used.</p>
+<h2 id="build-profiles">Build Profiles</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Profile</th><th>Activation</th><th>Purpose</th><th>Key Dependencies/Plugins</th></tr></thead><tbody>
+<tr><td>Debug</td><td>Default MSBuild configuration</td><td>Development build with debug symbols; output to <code>bin\Debug\</code></td><td>Standard .NET Framework BCL references</td></tr>
+<tr><td>Release</td><td>Manual (<code>/p:Configuration=Release</code>)</td><td>Optimized build; output to <code>bin\Release\</code></td><td>Same BCL references as Debug</td></tr>
+<tr><td>Docker (mono mcs)</td><td>Docker build (<code>docker build</code>)</td><td>Compiles all <code>.cs</code> files directly with the Mono C# compiler (<code>mcs</code>) inside the container</td><td>Mono 6.12, references: System, System.Web, System.Data, System.Configuration, System.ServiceModel, System.Runtime.Serialization, System.Security, System.Web.Extensions, System.Xml, System.Net.Http</td></tr>
+</tbody></table></div>
+<p>There are no Maven/Gradle profiles, NuGet-conditional dependencies, or webpack/vite configuration — the MSBuild project targets .NET Framework 4.8 with a single unconditional reference list.</p>
+<h2 id="runtime-profiles">Runtime Profiles</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Profile</th><th>Activation Method</th><th>Config Files</th><th>Key Overrides</th></tr></thead><tbody>
+<tr><td>Default (single profile)</td><td>No profile switching — single config for all environments</td><td><code>web.config</code></td><td>None — environment-specific values are injected via environment variables, not profile files</td></tr>
+</tbody></table></div>
+<p>No <code>appsettings.Development.json</code>, <code>appsettings.Production.json</code>, <code>ASPNETCORE_ENVIRONMENT</code>, or Spring-style profile-specific files exist. All profile differentiation is achieved by overriding environment variables at deploy time.</p>
+<h2 id="properties-inventory">Properties Inventory</h2>
+<h3 id="zavastatementservice">ZavaStatementService</h3>
+<div class="table-wrap"><table><thead><tr>
+<th>Property Key</th><th>Default Value</th><th>Profile</th><th>Source</th></tr></thead><tbody>
+<tr><td><code>DB_HOST</code> / <code>DATABASE_HOST</code></td><td>_(none)_</td><td>All</td><td>Environment variable (primary / fallback key)</td></tr>
+<tr><td><code>DB_PORT</code> / <code>DATABASE_PORT</code></td><td>_(none)_</td><td>All</td><td>Environment variable (primary / fallback key)</td></tr>
+<tr><td><code>DB_NAME</code> / <code>DATABASE_NAME</code></td><td>_(none)_</td><td>All</td><td>Environment variable (primary / fallback key)</td></tr>
+<tr><td><code>DB_USER</code> / <code>DATABASE_USER</code></td><td>_(none)_</td><td>All</td><td>Environment variable (primary / fallback key)</td></tr>
+<tr><td><code>DB_PASSWORD</code> / <code>DATABASE_PASSWORD</code></td><td>_(none)_</td><td>All</td><td>Environment variable (primary / fallback key)</td></tr>
+<tr><td><code>ZavaBankDb</code> (connection string)</td><td><code>Server=sqlserver,1433;Database=ZavaBankDB;User Id=sa;Password=Zava123!;TrustServerCertificate=true;</code></td><td>All (fallback)</td><td><code>web.config</code> <code>&lt;connectionStrings&gt;</code> — used only when none of the DB_* env vars are set</td></tr>
+<tr><td><code>compilation/@debug</code></td><td><code>true</code></td><td>All</td><td><code>web.config</code> <code>&lt;system.web&gt;</code> — debug mode enabled</td></tr>
+<tr><td><code>compilation/@targetFramework</code></td><td><code>4.8</code></td><td>All</td><td><code>web.config</code></td></tr>
+<tr><td><code>httpRuntime/@targetFramework</code></td><td><code>4.8</code></td><td>All</td><td><code>web.config</code></td></tr>
+<tr><td><code>customErrors/@mode</code></td><td><code>Off</code></td><td>All</td><td><code>web.config</code> — full exception detail returned to clients</td></tr>
+<tr><td><code>serviceMetadata/@httpGetEnabled</code></td><td><code>true</code></td><td>All</td><td><code>web.config</code> — WSDL exposed at <code>?wsdl</code></td></tr>
+<tr><td><code>serviceDebug/@includeExceptionDetailInFaults</code></td><td><code>true</code></td><td>All</td><td><code>web.config</code> — full exception details included in SOAP faults</td></tr>
+<tr><td>Container listen port</td><td><code>8080</code></td><td>Docker</td><td><code>Dockerfile</code> <code>EXPOSE 8080</code> / <code>xsp4 --port 8080</code></td></tr>
+</tbody></table></div>
+<h2 id="startup-parameters-resource-requirements">Startup Parameters &amp; Resource Requirements</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Service</th><th>Runtime Options</th><th>Memory</th><th>CPU</th><th>Instance Count</th></tr></thead><tbody>
+<tr><td>ZavaStatementService (Docker)</td><td><code>xsp4 --port 8080 --address 0.0.0.0 --nonstop</code></td><td>Not specified (no Docker Compose resource limits in repository)</td><td>Not specified</td><td>Not specified</td></tr>
+</tbody></table></div>
+<p>No JVM heap settings (not applicable — Mono runtime). No <code>-D</code> system properties, no <code>ASPNETCORE_ENVIRONMENT</code>. No Kubernetes manifests, Helm charts, or Docker Compose files with resource constraints exist in the repository.</p>
+<h2 id="startup-dependency-chain">Startup Dependency Chain</h2>
+<pre><code>
+Docker container starts
+  └─&gt; xsp4 serves application on port 8080
+        └─&gt; On first operation call: DbConfig.GetConnectionString()
+              └─&gt; Requires SQL Server reachable at DB_HOST:DB_PORT (or sqlserver:1433)
+                    └─&gt; EnsureGeneratedStatementsTableExists() — DDL guard on first use
+</code></pre>
+<p><strong>Wait mechanism:</strong> None. There is no <code>dockerize</code>, Kubernetes readiness probe, <code>depends_on</code> health check, or retry loop. If SQL Server is unavailable when a SOAP operation is invoked, the <code>SqlConnection.Open()</code> call will throw immediately and propagate as a <code>FaultException</code> to the caller.</p>
+<p><strong>Health endpoint:</strong> <code>GET /health</code> returns <code>200 OK</code> with body <code>&quot;OK&quot;</code> — this probe does not check database connectivity, so it will report healthy even when SQL Server is unreachable.</p>
+<h2 id="secrets-sensitive-configuration">Secrets &amp; Sensitive Configuration</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Secret Reference</th><th>Type</th><th>Storage</th><th>Notes</th></tr></thead><tbody>
+<tr><td><code>DB_PASSWORD</code> / <code>DATABASE_PASSWORD</code></td><td>Database password</td><td>Environment variable</td><td>[MASKED] — injected at container runtime</td></tr>
+<tr><td><code>DB_USER</code> / <code>DATABASE_USER</code></td><td>Database username</td><td>Environment variable</td><td>[MASKED] — injected at container runtime</td></tr>
+<tr><td><code>web.config</code> → <code>ZavaBankDb</code> Password</td><td>Database password</td><td>Plain text in <code>web.config</code></td><td>[MASKED] — hardcoded fallback value <code>Zava123!</code> present in source file; <strong>should be removed</strong></td></tr>
+<tr><td><code>web.config</code> → <code>ZavaBankDb</code> User Id</td><td>Database username</td><td>Plain text in <code>web.config</code></td><td><code>sa</code> (SQL Server system administrator account) hardcoded as fallback</td></tr>
+</tbody></table></div>
+<h3 id="secrets-provisioning-workflow">Secrets Provisioning Workflow</h3>
+<p><strong>Current state:</strong> Secrets are provisioned purely via environment variables injected into the container at runtime. There is no managed identity, Key Vault, Vault agent, or sealed secrets mechanism. The <code>web.config</code> contains a hardcoded fallback connection string with a plaintext password (<code>Zava123!</code>) and the <code>sa</code> account — this acts as a development convenience default but represents a significant security risk if the image is deployed without overriding the env vars.</p>
+<p><strong>Flow:</strong></p>
+<ol>
+<li>Operator sets <code>DB_HOST</code>, <code>DB_PORT</code>, <code>DB_NAME</code>, <code>DB_USER</code>, <code>DB_PASSWORD</code> as container environment variables (e.g., via <code>docker run -e</code>, Docker Compose <code>environment:</code>, or Kubernetes <code>Secret</code> → <code>envFrom</code>).</li>
+<li>At runtime, <code>DbConfig.GetConnectionString()</code> reads these variables and constructs the SQL Server connection string.</li>
+<li>If any variable is absent or blank, the code falls back to the <code>web.config</code> connection string (plaintext credentials).</li>
+</ol>
+<p>No GitHub Actions secrets pipeline, no RBAC model, and no rotation or auditing mechanism is defined in the repository.</p>
+<h2 id="feature-flags">Feature Flags</h2>
+<p>No feature flags, <code>@ConditionalOnProperty</code>, <code>IFeatureManager</code>, LaunchDarkly, Unleash, or any other feature-toggle framework is used. There are no conditional beans, A/B testing configurations, or gradual rollout mechanisms.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Flag Name</th><th>Default</th><th>Controlled By</th></tr></thead><tbody>
+<tr><td>_(none detected)_</td><td>—</td><td>—</td></tr>
+</tbody></table></div>
+<h2 id="framework-runtime-versions">Framework &amp; Runtime Versions</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Component</th><th>Version</th><th>Source</th></tr></thead><tbody>
+<tr><td>Target Framework</td><td>.NET Framework 4.8</td><td><code>ZavaStatementService.csproj</code> <code>&lt;TargetFrameworkVersion&gt;v4.8&lt;/TargetFrameworkVersion&gt;</code></td></tr>
+<tr><td>WCF (System.ServiceModel)</td><td>.NET Framework 4.8 BCL</td><td><code>ZavaStatementService.csproj</code> assembly reference</td></tr>
+<tr><td>ADO.NET (System.Data)</td><td>.NET Framework 4.8 BCL</td><td><code>ZavaStatementService.csproj</code> assembly reference</td></tr>
+<tr><td>Container base image</td><td>Mono 6.12 (<code>mono:6.12</code>)</td><td><code>Dockerfile</code> <code>FROM mono:6.12</code></td></tr>
+<tr><td>Web server</td><td>XSP4 (mono-xsp4)</td><td><code>Dockerfile</code> <code>apt-get install mono-xsp4</code></td></tr>
+<tr><td>Mono C# compiler</td><td>Bundled with Mono 6.12</td><td><code>Dockerfile</code> <code>mcs</code> compiler invocation</td></tr>
+<tr><td>Build tool</td><td>MSBuild (via .NET SDK) or <code>mcs</code> (Docker)</td><td><code>ZavaStatementService.csproj</code> / <code>Dockerfile</code></td></tr>
+<tr><td>Debian base (in Mono image)</td><td>Debian Buster (10)</td><td><code>Dockerfile</code> — apt sources patched to use <code>archive.debian.org</code> (Buster reached EOL)</td></tr>
+</tbody></table></div>
+</div>
+</div>
+<div id="tab-workflows" class="tab-panel">
+  <div class="fact-content"><h1 id="core-business-workflows">Core Business Workflows</h1>
+<p>ZavaStatementService is a bank statement generation platform for Zava Bank — it produces, persists, and retrieves monthly HTML account statements on behalf of customers.</p>
+<h2 id="domain-entities">Domain Entities</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Entity</th><th>Service / Bounded Context</th><th>Description</th><th>Key Relationships</th></tr></thead><tbody>
+<tr><td>Customer</td><td>Banking Core (upstream)</td><td>A Zava Bank customer identified by name</td><td>Owns one or more Accounts</td></tr>
+<tr><td>Account</td><td>Banking Core (upstream)</td><td>A bank account with a balance and account number</td><td>Belongs to a Customer; has many Transactions</td></tr>
+<tr><td>Transaction</td><td>Banking Core (upstream)</td><td>A financial transaction on an account (debit or credit)</td><td>Belongs to an Account; classified by a TransactionType</td></tr>
+<tr><td>TransactionType</td><td>Banking Core (upstream)</td><td>A classification code for a transaction (e.g., &quot;DEP&quot; for deposit)</td><td>Categorises Transactions</td></tr>
+<tr><td>StatementRequest</td><td>Statement Management (this service)</td><td>A record of a statement generation request, including period, format, and completion status</td><td>Linked to an Account and Customer; produces a GeneratedStatement and StatementArchive entry</td></tr>
+<tr><td>GeneratedStatement</td><td>Statement Management (this service)</td><td>A persisted HTML-rendered monthly statement for an account</td><td>Produced by a StatementRequest; associated with an Account</td></tr>
+<tr><td>StatementArchive</td><td>Statement Management (this service)</td><td>Archival metadata (file path, size, checksum, 7-year expiry date) for a generated statement</td><td>Linked to a StatementRequest and Account</td></tr>
+</tbody></table></div>
+<h2 id="service-to-domain-mapping">Service-to-Domain Mapping</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Service</th><th>Domain Context</th><th>Owned Entities</th><th>External Dependencies</th></tr></thead><tbody>
+<tr><td>ZavaStatementService</td><td>Statement Management</td><td>StatementRequest, GeneratedStatement, StatementArchive</td><td>Reads Account, Customer, Transaction, TransactionType from upstream banking schema (shared SQL Server database)</td></tr>
+<tr><td>Upstream Banking System</td><td>Banking Core</td><td>Account, Customer, Transaction, TransactionType</td><td>None (source of truth for core financial data)</td></tr>
+</tbody></table></div>
+<p>Cross-context data exchange is via <strong>direct SQL access to a shared database</strong> — there is no REST API, messaging, or event integration between the statement service and the upstream banking tables.</p>
+<h2 id="primary-workflows">Primary Workflows</h2>
+<h3 id="workflow-1-generate-monthly-statement">Workflow 1: Generate Monthly Statement</h3>
+<p><strong>Trigger:</strong> SOAP client calls <code>GenerateStatement(accountId, month, year)</code>.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li><strong>Validate request inputs</strong> — enforce that <code>accountId &gt; 0</code>, <code>month</code> is 1–12, and <code>year</code> is in range 2000–2100.</li>
+<li><strong>Compute billing period</strong> — derive <code>periodStart</code> (first day of month) and <code>periodEnd</code> (last instant of month).</li>
+<li><strong>Look up account and customer</strong> — query <code>Accounts</code> joined with <code>Customers</code> to obtain <code>AccountNumber</code>, current <code>Balance</code>, and full customer name. Raise a fault if the account is not found.</li>
+<li><strong>Fetch transactions for the period</strong> — query <code>Transactions</code> joined with <code>TransactionTypes</code> for all transactions within <code>[periodStart, periodEnd]</code>, ordered chronologically. Accumulate <code>totalCredits</code> and <code>totalDebits</code>.</li>
+<li><strong>Classify credits vs debits</strong> — transactions where <code>TypeCode = &quot;DEP&quot;</code> or <code>Amount &gt;= 0</code> are credits; all others contribute to debits.</li>
+<li><strong>Render HTML statement</strong> — compose a complete HTML document embedding customer details, account number, period dates, opening balance, totals, and a transaction table.</li>
+<li><strong>Compute checksum</strong> — generate a SHA-256 hash of the HTML content for tamper-detection.</li>
+<li><strong>Record the request</strong> — insert a row into <code>StatementRequests</code> (status <code>Completed</code>, format <code>HTML</code>).</li>
+<li><strong>Persist the statement</strong> — insert the HTML into <code>GeneratedStatements</code>, capturing the new <code>StatementID</code>.</li>
+<li><strong>Archive metadata</strong> — insert into <code>StatementArchive</code> with a 7-year expiry date and the SHA-256 checksum.</li>
+<li><strong>Return response</strong> — return <code>GeneratedStatementResponse</code> including the <code>StatementId</code> and the full HTML content.</li>
+</ol>
+<h3 id="workflow-2-retrieve-statement-history">Workflow 2: Retrieve Statement History</h3>
+<p><strong>Trigger:</strong> SOAP client calls <code>GetStatementHistory(accountId)</code>.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li><strong>Validate input</strong> — enforce that <code>accountId &gt; 0</code>.</li>
+<li><strong>Ensure statement table exists</strong> — auto-create <code>GeneratedStatements</code> table if absent.</li>
+<li><strong>Query recent statements</strong> — fetch up to 100 most recently generated statements for the account, ordered by <code>GeneratedDate DESC</code>.</li>
+<li><strong>Return summary list</strong> — return <code>StatementHistoryResponse</code> with lightweight <code>StatementHistoryItem</code> records (ID, month, year, generated date) — no HTML content.</li>
+</ol>
+<h3 id="workflow-3-retrieve-a-specific-statement">Workflow 3: Retrieve a Specific Statement</h3>
+<p><strong>Trigger:</strong> SOAP client calls <code>GetStatement(statementId)</code>.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li><strong>Validate input</strong> — enforce that <code>statementId &gt; 0</code>.</li>
+<li><strong>Ensure statement table exists</strong> — auto-create <code>GeneratedStatements</code> table if absent.</li>
+<li><strong>Look up statement</strong> — query <code>GeneratedStatements</code> by <code>StatementID</code>.</li>
+<li><strong>Return full detail or fault</strong> — if found, return <code>StatementDetailResponse</code> with full HTML content; if not found, raise <code>FaultException(&quot;Statement was not found.&quot;)</code>.</li>
+</ol>
+<h2 id="cross-service-data-flows">Cross-Service Data Flows</h2>
+<p>ZavaStatementService is a <strong>single-service application</strong> — there are no remote service calls, gateway aggregation patterns, or event-driven cross-service compositions. All data originates from a single shared SQL Server database.</p>
+<p>The only cross-boundary flow is the implicit dependency on the upstream banking schema:</p>
+<ul>
+<li><code>GenerateStatement</code> <strong>reads</strong> from the upstream banking tables (<code>Accounts</code>, <code>Customers</code>, <code>Transactions</code>, <code>TransactionTypes</code>) to gather the source data for the statement.</li>
+<li>It then <strong>writes</strong> to the statement-layer tables (<code>StatementRequests</code>, <code>GeneratedStatements</code>, <code>StatementArchive</code>) which this service owns.</li>
+<li>There is no circuit-breaker or fallback: if the upstream tables are unavailable or the account does not exist, the operation fails immediately with a <code>FaultException</code>.</li>
+</ul>
+<h2 id="business-workflow-sequence">Business Workflow Sequence</h2>
+<div class="mermaid">
+sequenceDiagram
+    participant Client as "SOAP Client"
+    participant Svc as "StatementService"
+    participant DB as "SQL Server (ZavaBankDB)"
+
+    Note over Client,Svc: GenerateStatement
+    Client->>Svc: GenerateStatement(accountId, month, year)
+    Svc->>Svc: Validate accountId, month, year
+    alt Validation fails
+        Svc-->>Client: FaultException (invalid input)
+    else Inputs valid
+        Svc->>DB: Lookup account + customer name
+        alt Account not found
+            DB-->>Svc: Empty result
+            Svc-->>Client: FaultException ("Account was not found.")
+        else Account exists
+            DB-->>Svc: AccountNumber, Balance, CustomerName
+            Svc->>DB: Fetch transactions for billing period
+            DB-->>Svc: Transaction rows (date, type, amount, balance)
+            Svc->>Svc: Classify credits and debits
+            Svc->>Svc: Render HTML statement
+            Svc->>Svc: Compute SHA-256 checksum
+            Svc->>DB: INSERT StatementRequest (Completed)
+            DB-->>Svc: requestId
+            Svc->>DB: INSERT GeneratedStatements (HTML content)
+            DB-->>Svc: statementId
+            Svc->>DB: INSERT StatementArchive (7-year expiry, checksum)
+            DB-->>Svc: OK
+            Svc-->>Client: GeneratedStatementResponse (statementId + HtmlContent)
+        end
+    end
+</div>
+<h2 id="business-rules-decision-logic">Business Rules &amp; Decision Logic</h2>
+<h3 id="validation-rules">Validation Rules</h3>
+<div class="table-wrap"><table><thead><tr>
+<th>Rule</th><th>Applies To</th><th>Constraint</th></tr></thead><tbody>
+<tr><td>Account ID range</td><td>All three operations</td><td><code>accountId</code> must be greater than 0; fault raised otherwise</td></tr>
+<tr><td>Statement ID range</td><td>GetStatement</td><td><code>statementId</code> must be greater than 0; fault raised otherwise</td></tr>
+<tr><td>Month range</td><td>GenerateStatement</td><td><code>month</code> must be between 1 and 12 (inclusive)</td></tr>
+<tr><td>Year range</td><td>GenerateStatement</td><td><code>year</code> must be between 2000 and 2100 (inclusive)</td></tr>
+<tr><td>Account existence</td><td>GenerateStatement</td><td>Account must exist in the <code>Accounts</code> table; fault raised if not found</td></tr>
+<tr><td>Statement existence</td><td>GetStatement</td><td>Statement must exist in <code>GeneratedStatements</code>; fault raised if not found</td></tr>
+</tbody></table></div>
+<h3 id="creditdebit-classification">Credit/Debit Classification</h3>
+<p>A transaction is classified as a <strong>credit</strong> if its <code>TypeCode</code> equals <code>&quot;DEP&quot;</code> (case-insensitive) <strong>or</strong> its <code>Amount</code> is greater than or equal to zero. Otherwise it is classified as a <strong>debit</strong> and its absolute value is added to <code>totalDebits</code>. This dual-condition rule means that non-deposit positive-amount transactions are also treated as credits.</p>
+<h3 id="archive-retention-policy">Archive Retention Policy</h3>
+<p>Every generated statement is archived with an expiry of exactly <strong>7 years</strong> (<code>DATEADD(YEAR, 7, GETDATE())</code>). The archive record stores a SHA-256 checksum of the HTML content for tamper-detection and a <code>FilePath</code> reference (<code>db://generated-statements/&lt;statementId&gt;</code>).</p>
+<h3 id="statement-history-cap">Statement History Cap</h3>
+<p><code>GetStatementHistory</code> returns at most <strong>100</strong> statements per account (<code>SELECT TOP 100 ... ORDER BY GeneratedDate DESC</code>), providing the most recent statements only.</p>
+<h3 id="schema-auto-initialization">Schema Auto-Initialization</h3>
+<p>Before any read or write against <code>GeneratedStatements</code>, the service executes a DDL guard (<code>IF OBJECT_ID ... IS NULL CREATE TABLE</code>) to ensure the table exists. This means the schema for the statement layer is lazily initialized on first use rather than through a migration tool.</p>
+<h3 id="cross-cutting-concerns">Cross-Cutting Concerns</h3>
+<ul>
+<li><strong>Transactions:</strong> There is no explicit transaction scope (<code>TransactionScope</code>, <code>BEGIN TRANSACTION</code>). The three INSERT statements in <code>GenerateStatement</code> (StatementRequest → GeneratedStatements → StatementArchive) execute in sequence without wrapping. A failure on the second or third INSERT leaves partial data committed.</li>
+<li><strong>Error handling:</strong> All business errors propagate as <code>FaultException</code> (untyped), returning a SOAP Fault to the client. There are no typed fault contracts (<code>FaultException&lt;T&gt;</code>), no retry logic, and no compensating actions.</li>
+<li><strong>Audit/logging:</strong> No explicit logging framework is used. Statement requests are tracked implicitly in <code>StatementRequests</code> with <code>RequestedDate</code> and <code>CompletedDate</code> timestamps. No structured audit trail or event log is written.</li>
+<li><strong>Authorization:</strong> No authentication or authorization is enforced. Any caller with network access can generate or retrieve statements for any account ID. There are no role checks, ownership validation, or access control lists.</li>
+</ul>
+</div>
+</div>
+<div id="tab-deps" class="tab-panel">
+  <div class="fact-content"><h1 id="dependency-map">Dependency Map</h1>
+<p>ZavaStatementService declares <strong>no external NuGet packages</strong>. All dependencies are first-party .NET Framework 4.8 Base Class Library (BCL) assemblies referenced directly in the <code>.csproj</code>.</p>
+<h2 id="dependencies">Dependencies</h2>
+<div class="mermaid">
+flowchart LR
+    App["ZavaStatementService\n(.NET Framework 4.8)"]
+
+    subgraph Web["Web / Service Framework"]
+        SvcModel["System.ServiceModel\n(WCF - .NET 4.8 BCL)"]
+        SystemWeb["System.Web\n(.NET 4.8 BCL)"]
+    end
+    subgraph DB["Database / Data Access"]
+        SystemData["System.Data\n(ADO.NET - .NET 4.8 BCL)"]
+    end
+    subgraph Serialization["Serialization"]
+        RuntimeSer["System.Runtime.Serialization\n(.NET 4.8 BCL)"]
+    end
+    subgraph Security["Security"]
+        SystemSec["System.Security\n(.NET 4.8 BCL)"]
+    end
+    subgraph Core["Core / Utilities"]
+        System["System\n(.NET 4.8 BCL)"]
+        SystemConf["System.Configuration\n(.NET 4.8 BCL)"]
+        SystemCore["System.Core\n(.NET 4.8 BCL)"]
+    end
+
+    App -->|"SOAP service hosting"| Web
+    App -->|"ADO.NET data access"| DB
+    App -->|"DataContract serialization"| Serialization
+    App -->|"SHA-256 hashing"| Security
+    App -->|"core runtime + config"| Core
+</div>
+<h3 id="dependency-summary">Dependency Summary</h3>
+<div class="table-wrap"><table><thead><tr>
+<th>Category</th><th>Count</th><th>Key Libraries</th><th>Notes</th></tr></thead><tbody>
+<tr><td>Web / Service Framework</td><td>2</td><td>System.ServiceModel (WCF), System.Web</td><td>Legacy WCF SOAP stack on .NET Framework 4.8; no migration path to .NET 8+ WCF server</td></tr>
+<tr><td>Database / Data Access</td><td>1</td><td>System.Data (ADO.NET)</td><td>Raw ADO.NET with SqlClient; no ORM</td></tr>
+<tr><td>Serialization</td><td>1</td><td>System.Runtime.Serialization</td><td>WCF DataContract serialization</td></tr>
+<tr><td>Security</td><td>1</td><td>System.Security</td><td>Used for SHA-256 checksum generation</td></tr>
+<tr><td>Core / Utilities</td><td>3</td><td>System, System.Configuration, System.Core</td><td>Base runtime, configuration manager, LINQ</td></tr>
+</tbody></table></div>
+<h3 id="version-compatibility-risks">Version &amp; Compatibility Risks</h3>
+<p>All referenced assemblies ship as part of <strong>.NET Framework 4.8</strong>, which Microsoft has placed in <strong>maintenance mode</strong> (security fixes only, no new features). .NET Framework 4.8 will not be ported to non-Windows platforms natively — the project currently works on Linux only via <strong>Mono 6.12</strong>, which is also in maintenance mode and reached end-of-active-development. <code>System.ServiceModel</code> (WCF) is the most significant migration risk: Microsoft does not ship a WCF <em>server</em> runtime for modern .NET (5/6/7/8); migrating would require replacing WCF with ASP.NET Core gRPC, REST APIs, or the community-maintained <code>CoreWCF</code> library. <code>System.Data.SqlClient</code> has been superseded by <code>Microsoft.Data.SqlClient</code>, which receives active development, security patches, and new SQL Server feature support.</p>
+<h3 id="notable-observations">Notable Observations</h3>
+<ul>
+<li><strong>Zero third-party NuGet packages</strong> — the project relies entirely on .NET Framework BCL assemblies, which significantly reduces supply-chain risk but also means the application is tightly coupled to the full .NET Framework runtime.</li>
+<li><strong>Mono runtime dependency</strong> — the Dockerfile uses <code>mono:6.12</code> + <code>xsp4</code> to run a .NET Framework app on Linux; Mono is no longer actively developed and is not a supported production platform for new workloads.</li>
+<li><strong>No logging framework</strong> — there is no structured logging dependency (e.g., Serilog, NLog, log4net); all diagnostic output is implicit through WCF fault exceptions and IIS/XSP4 request logs.</li>
+<li><strong><code>System.Data.SqlClient</code> (legacy)</strong> — the project uses the older <code>System.Data.SqlClient</code> namespace rather than the actively maintained <code>Microsoft.Data.SqlClient</code> NuGet package, missing security patches, AAD auth support, and Always Encrypted improvements.</li>
+</ul>
+<h2 id="test-dependencies">Test Dependencies</h2>
+<p>No test-scope dependencies detected.</p>
+<p>Total test-scope dependencies: 0</p>
+<p>No test project or test framework references were found in the repository. There are no unit, integration, or contract-testing libraries declared.</p>
+</div>
+</div>
+<div id="tab-data" class="tab-panel">
+  <div class="fact-content"><h1 id="data-architecture-persistence-layer">Data Architecture &amp; Persistence Layer</h1>
+<p>ZavaStatementService uses a single <strong>SQL Server</strong> relational database accessed exclusively through raw <strong>ADO.NET</strong> (<code>System.Data.SqlClient</code>) with no ORM — operating against seven tables that span a pre-existing banking schema plus an application-owned statement storage schema.</p>
+<h2 id="database-configuration">Database Configuration</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Service/Module</th><th>DB Type</th><th>Profile</th><th>Driver</th><th>Connection</th><th>Migration Tool</th></tr></thead><tbody>
+<tr><td>ZavaStatementService</td><td>SQL Server</td><td>All (single config)</td><td>System.Data.SqlClient (.NET 4.8 BCL)</td><td>Resolved from env vars <code>DB_HOST</code>/<code>DB_PORT</code>/<code>DB_NAME</code>/<code>DB_USER</code>/<code>DB_PASSWORD</code>; falls back to <code>web.config</code> <code>ZavaBankDb</code> string (<code>Server=sqlserver,1433</code>)</td><td>None — schema assumed pre-existing; <code>GeneratedStatements</code> table auto-created inline via <code>EnsureGeneratedStatementsTableExists</code></td></tr>
+</tbody></table></div>
+<p>There is no Flyway, Liquibase, EF Migrations, or any formal migration tool. The <code>GeneratedStatements</code> table is created at runtime with an <code>IF OBJECT_ID ... IS NULL / CREATE TABLE</code> guard; all other tables (<code>Accounts</code>, <code>Customers</code>, <code>Transactions</code>, <code>TransactionTypes</code>, <code>StatementRequests</code>, <code>StatementArchive</code>) are assumed to exist in the target database. No seed data mechanism is present.</p>
+<h2 id="data-ownership-per-service">Data Ownership per Service</h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Service</th><th>Tables Owned</th><th>ORM Framework</th><th>Caching</th><th>Notes</th></tr></thead><tbody>
+<tr><td>ZavaStatementService</td><td><code>StatementRequests</code>, <code>GeneratedStatements</code>, <code>StatementArchive</code></td><td>None (raw ADO.NET)</td><td>None</td><td>Writes all three tables during <code>GenerateStatement</code>; reads <code>GeneratedStatements</code> for history/detail queries</td></tr>
+<tr><td>Upstream Banking System (external)</td><td><code>Accounts</code>, <code>Customers</code>, <code>Transactions</code>, <code>TransactionTypes</code></td><td>Unknown</td><td>Unknown</td><td>Read-only from this service&#39;s perspective; ownership and schema management are outside this codebase</td></tr>
+</tbody></table></div>
+<h2 id="entity-model">Entity Model</h2>
+<div class="mermaid">
+erDiagram
+    Customers ||--o{ Accounts : "owns"
+    Accounts ||--o{ Transactions : "has"
+    TransactionTypes ||--o{ Transactions : "classifies"
+    Accounts ||--o{ StatementRequests : "generates"
+    Customers ||--o{ StatementRequests : "initiates"
+    StatementRequests ||--o{ GeneratedStatements : "produces"
+    StatementRequests ||--o{ StatementArchive : "archived via"
+    Accounts ||--o{ GeneratedStatements : "referenced in"
+
+    Customers {
+        int CustomerID PK
+        string FirstName
+        string LastName
+    }
+    Accounts {
+        int AccountID PK
+        string AccountNumber
+        decimal Balance
+        int CustomerID FK
+    }
+    TransactionTypes {
+        int TransactionTypeID PK
+        string TypeCode
+    }
+    Transactions {
+        int TransactionID PK
+        int AccountID FK
+        int TransactionTypeID FK
+        datetime TransactionDate
+        string Description
+        decimal Amount
+        decimal BalanceAfter
+    }
+    StatementRequests {
+        int RequestID PK
+        int CustomerID FK
+        int AccountID FK
+        string StatementType
+        datetime PeriodStart
+        datetime PeriodEnd
+        string Format
+        string Status
+        datetime RequestedDate
+        datetime CompletedDate
+    }
+    GeneratedStatements {
+        int StatementID PK
+        int RequestID FK
+        int AccountID FK
+        int StatementMonth
+        int StatementYear
+        nvarchar StatementHtml
+        datetime GeneratedDate
+    }
+    StatementArchive {
+        int ArchiveID PK
+        int RequestID FK
+        int AccountID FK
+        string FilePath
+        int FileSize
+        datetime GeneratedDate
+        datetime ExpiryDate
+        string Checksum
+    }
+</div>
+<p>&gt; <strong>Note:</strong> <code>Customers</code>, <code>Accounts</code>, <code>Transactions</code>, and <code>TransactionTypes</code> field definitions are inferred from SQL queries in <code>StatementService.cs</code>; no ORM entity classes exist. The full schema is not defined in this repository.</p>
+<h2 id="key-repository-methods">Key Repository Methods</h2>
+<p>There are no repository interfaces or ORM data-access objects. All data access is inline within <code>StatementService</code> using raw <code>SqlConnection</code> / <code>SqlCommand</code>. The table below documents the logical query operations:</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Operation</th><th>Tables Accessed</th><th>Type</th><th>Purpose</th></tr></thead><tbody>
+<tr><td><code>GenerateStatement</code> — account lookup</td><td><code>Accounts</code>, <code>Customers</code></td><td>SELECT (read)</td><td>Retrieve <code>AccountNumber</code>, <code>Balance</code>, and full customer name for the requested account</td></tr>
+<tr><td><code>GenerateStatement</code> — transaction fetch</td><td><code>Transactions</code>, <code>TransactionTypes</code></td><td>SELECT (read)</td><td>Retrieve all transactions for the account within the requested period, ordered by date</td></tr>
+<tr><td><code>GenerateStatement</code> — request insert</td><td><code>StatementRequests</code></td><td>INSERT (write)</td><td>Record the statement generation request with period, format, and status metadata</td></tr>
+<tr><td><code>GenerateStatement</code> — statement insert</td><td><code>GeneratedStatements</code></td><td>INSERT (write)</td><td>Persist the rendered HTML statement, returning the new <code>StatementID</code></td></tr>
+<tr><td><code>GenerateStatement</code> — archive insert</td><td><code>StatementArchive</code></td><td>INSERT (write)</td><td>Store archive metadata including file path, size, 7-year expiry, and SHA-256 checksum</td></tr>
+<tr><td><code>GetStatementHistory</code></td><td><code>GeneratedStatements</code></td><td>SELECT TOP 100 (read)</td><td>Retrieve the 100 most recent statement summaries for an account, ordered by <code>GeneratedDate DESC</code></td></tr>
+<tr><td><code>GetStatement</code></td><td><code>GeneratedStatements</code></td><td>SELECT (read)</td><td>Retrieve a single statement record including full HTML by <code>StatementID</code></td></tr>
+<tr><td><code>EnsureGeneratedStatementsTableExists</code></td><td><code>GeneratedStatements</code></td><td>DDL</td><td>Auto-create <code>GeneratedStatements</code> table on first use if it does not exist</td></tr>
+</tbody></table></div>
+<h2 id="caching-strategy">Caching Strategy</h2>
+<p>No caching layer is configured. There is no Redis, EhCache, Caffeine, <code>MemoryCache</code>, <code>IDistributedCache</code>, or any query-result caching. Every call to <code>GenerateStatement</code>, <code>GetStatementHistory</code>, and <code>GetStatement</code> executes fresh SQL queries against SQL Server. Repeatedly retrieving the same statement will re-query <code>GeneratedStatements</code> each time.</p>
+<h2 id="data-ownership-boundaries">Data Ownership Boundaries</h2>
+<p><strong>Single shared database.</strong> All seven tables reside in the same SQL Server database (<code>ZavaBankDB</code>). There is no logical or physical schema separation between the upstream banking tables (<code>Accounts</code>, <code>Customers</code>, <code>Transactions</code>, <code>TransactionTypes</code>) and the statement-layer tables (<code>StatementRequests</code>, <code>GeneratedStatements</code>, <code>StatementArchive</code>).</p>
+<p><strong>Read-only vs read-write split.</strong> <code>ZavaStatementService</code> treats the four banking tables as read-only (SELECT only) and owns the three statement tables exclusively (INSERT and DDL). There is no formal ownership enforcement (foreign key constraints to banking tables are not defined in the code).</p>
+<p><strong>No CQRS or event sourcing.</strong> All read and write operations go through the same synchronous ADO.NET path to the same SQL Server instance. There is no separate read model, event store, or command/query separation.</p>
+<h3 id="data-classification-sensitivity">Data Classification &amp; Sensitivity</h3>
+<div class="table-wrap"><table><thead><tr>
+<th>Entity/Table</th><th>Sensitive Fields</th><th>Classification</th><th>Controls in Place</th></tr></thead><tbody>
+<tr><td><code>Customers</code></td><td><code>FirstName</code>, <code>LastName</code></td><td>PII</td><td>None — stored and displayed in plain text; no encryption-at-rest, masking, or access controls</td></tr>
+<tr><td><code>Accounts</code></td><td><code>AccountNumber</code>, <code>Balance</code></td><td>PII / Financial</td><td>None — account numbers and balances exposed in plain text in SQL results and rendered HTML</td></tr>
+<tr><td><code>Transactions</code></td><td><code>Amount</code>, <code>BalanceAfter</code>, <code>Description</code></td><td>PII / Financial</td><td>None — transaction amounts and descriptions included unmasked in statement HTML</td></tr>
+<tr><td><code>GeneratedStatements</code></td><td><code>StatementHtml</code> (contains customer name, account number, transaction history)</td><td>PII / Financial</td><td>SHA-256 checksum stored in <code>StatementArchive</code> for integrity; no encryption of HTML content at rest</td></tr>
+<tr><td><code>StatementRequests</code></td><td><code>CustomerID</code>, <code>AccountID</code>, <code>PeriodStart</code>, <code>PeriodEnd</code></td><td>PII</td><td>None</td></tr>
+<tr><td><code>StatementArchive</code></td><td><code>FilePath</code>, <code>Checksum</code></td><td>Internal</td><td>Checksum provides tamper-detection; no access control on archive path</td></tr>
+</tbody></table></div>
+<p><strong>Summary:</strong> The service stores and returns significant PII and financial data (customer names, account numbers, balances, full transaction history) with no encryption-at-rest, field-level masking, or data access controls within the codebase. The <code>StatementHtml</code> column in <code>GeneratedStatements</code> effectively aggregates all sensitive fields into a single unprotected blob.</p>
+</div>
+</div>
+<p class="footer">Your feedback is invaluable &mdash; <a href="https://aka.ms/ghcp-appmod/feedback">Share feedback</a></p>
+<script>
+function toggleRow(rowId, triggerRow) {
+  var detail = document.getElementById(rowId);
+  var btn = document.getElementById('btn-' + rowId);
+  if (!detail) return;
+  var visible = detail.style.display !== 'none';
+  detail.style.display = visible ? 'none' : 'table-row';
+  if (btn) btn.classList.toggle('open', !visible);
+}
+(function() {
+  var nav = document.querySelector('.tab-nav');
+  if (!nav) return;
+  nav.addEventListener('click', function(e) {
+    var btn = e.target.closest('.tab-btn');
+    if (!btn) return;
+    var targetId = btn.getAttribute('data-tab');
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    document.querySelectorAll('.tab-panel').forEach(function(p) { p.classList.remove('active'); });
+    btn.classList.add('active');
+    var panel = document.getElementById(targetId);
+    if (panel) {
+      panel.classList.add('active');
+      // Render any mermaid diagrams in this panel that haven't been processed yet
+      if (window.__mermaidReady) { window.__renderMermaidIn(panel); }
+    }
+  });
+})();
+
+// ── Diagram lightbox ────────────────────────────────────────
+(function() {
+  var lightbox = document.getElementById('diagram-lightbox');
+  var inner = document.getElementById('diagram-lightbox-inner');
+  var closeBtn = document.getElementById('diagram-lightbox-close');
+  if (!lightbox || !inner || !closeBtn) return;
+
+  var scale = 1;
+  var translateX = 0;
+  var translateY = 0;
+  var isDragging = false;
+  var dragStartX = 0;
+  var dragStartY = 0;
+
+  function applyTransform() {
+    var svg = inner.querySelector('svg');
+    if (svg) {
+      svg.style.transform = 'translate(' + translateX + 'px, ' + translateY + 'px) scale(' + scale + ')';
+      svg.style.transformOrigin = 'center center';
+      svg.style.transition = 'none';
+    }
+  }
+
+  function resetTransform() {
+    scale = 1; translateX = 0; translateY = 0;
+    applyTransform();
+  }
+
+  function openLightbox(svgEl) {
+    inner.innerHTML = svgEl.outerHTML;
+    var injected = inner.querySelector('svg');
+    if (injected) {
+      injected.removeAttribute('width');
+      injected.removeAttribute('height');
+      injected.style.cursor = 'grab';
+    }
+    resetTransform();
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    inner.innerHTML = '';
+    document.body.style.overflow = '';
+    resetTransform();
+  }
+
+  inner.addEventListener('wheel', function(e) {
+    e.preventDefault();
+    var delta = e.deltaY > 0 ? 0.9 : 1.1;
+    scale = Math.min(Math.max(scale * delta, 0.3), 8);
+    applyTransform();
+  }, { passive: false });
+
+  inner.addEventListener('mousedown', function(e) {
+    if (e.button !== 0) return;
+    isDragging = true;
+    dragStartX = e.clientX - translateX;
+    dragStartY = e.clientY - translateY;
+    var svg = inner.querySelector('svg');
+    if (svg) { svg.style.cursor = 'grabbing'; }
+    e.preventDefault();
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (!isDragging) return;
+    translateX = e.clientX - dragStartX;
+    translateY = e.clientY - dragStartY;
+    applyTransform();
+  });
+
+  document.addEventListener('mouseup', function() {
+    if (!isDragging) return;
+    isDragging = false;
+    var svg = inner.querySelector('svg');
+    if (svg) { svg.style.cursor = 'grab'; }
+  });
+
+  inner.addEventListener('dblclick', function() { resetTransform(); });
+
+  document.addEventListener('click', function(e) {
+    var card = e.target.closest('.mermaid');
+    if (!card) return;
+    if (e.target.closest('.diagram-lightbox-close')) return;
+    var svg = card.querySelector('svg');
+    if (svg) { openLightbox(svg); }
+  });
+
+  closeBtn.addEventListener('click', closeLightbox);
+
+  lightbox.addEventListener('click', function(e) {
+    if (e.target === lightbox) { closeLightbox(); }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') { closeLightbox(); }
+  });
+})();
+
+var _currentTarget = '';
+
+function toggleMultiSelect(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  // Close others
+  document.querySelectorAll('.multi-select.open').forEach(function(ms) { if (ms.id !== id) ms.classList.remove('open'); });
+  el.classList.toggle('open');
+}
+
+// Close dropdowns on outside click
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.multi-select')) {
+    document.querySelectorAll('.multi-select.open').forEach(function(ms) { ms.classList.remove('open'); });
+  }
+});
+
+function getMultiSelectValues(msId) {
+  var el = document.getElementById(msId);
+  if (!el) return [];
+  var checked = el.querySelectorAll('input[type=checkbox]:checked');
+  var vals = [];
+  for (var i = 0; i < checked.length; i++) vals.push(checked[i].value);
+  return vals;
+}
+
+function onMultiSelectChange(msId, label) {
+  var el = document.getElementById(msId);
+  if (!el) return;
+  var vals = getMultiSelectValues(msId);
+  var total = el.querySelectorAll('input[type=checkbox]').length;
+  var btn = el.querySelector('.multi-select-btn');
+  if (btn) {
+    btn.textContent = vals.length > 0 && vals.length < total ? label + ' (' + vals.length + ')' : label;
+  }
+  applyFilters();
+}
+
+function applyFilters() {
+  var selectedDomains = getMultiSelectValues('domain-ms');
+  var selectedCrits = getMultiSelectValues('criticality-ms');
+
+  // Domain filter: show/hide entire sections (empty = show all)
+  var sections = document.querySelectorAll('.issue-section');
+  for (var i = 0; i < sections.length; i++) {
+    var domain = sections[i].getAttribute('data-domain');
+    sections[i].style.display = (selectedDomains.length === 0 || selectedDomains.indexOf(domain) >= 0) ? '' : 'none';
+  }
+
+  // Row-level filtering: respect target + criticality
+  var rows = document.querySelectorAll('.issue-row');
+  for (var i = 0; i < rows.length; i++) {
+    var row = rows[i];
+    var section = row.closest('.issue-section');
+    if (section && section.style.display === 'none') {
+      row.style.display = 'none';
+      var next = row.nextElementSibling;
+      if (next && next.classList.contains('detail-row')) next.style.display = 'none';
+      continue;
+    }
+
+    // Check target filter
+    var show = true;
+    if (_currentTarget && row.hasAttribute('data-targets')) {
+      var targetsStr = row.getAttribute('data-targets');
+      if (targetsStr && targetsStr !== '{}') {
+        try {
+          var targets = JSON.parse(targetsStr);
+          if (Object.keys(targets).length > 0 && !targets[_currentTarget]) {
+            show = false;
+          }
+        } catch(e) {}
+      }
+    }
+
+    // Check criticality filter
+    if (show && selectedCrits.length > 0) {
+      var crit = row.getAttribute('data-criticality');
+      if (selectedCrits.indexOf(crit) < 0) show = false;
+    }
+
+    row.style.display = show ? '' : 'none';
+    var nextRow = row.nextElementSibling;
+    if (nextRow && nextRow.classList.contains('detail-row')) {
+      if (!show) nextRow.style.display = 'none';
+    }
+  }
+}
+
+function clearAllFilters() {
+  document.querySelectorAll('.multi-select input[type=checkbox]').forEach(function(cb) { cb.checked = false; });
+  var domainBtn = document.querySelector('#domain-ms .multi-select-btn');
+  if (domainBtn) domainBtn.textContent = 'Domain';
+  var critBtn = document.querySelector('#criticality-ms .multi-select-btn');
+  if (critBtn) critBtn.textContent = 'Criticality';
+  applyFilters();
+}
+
+function onTargetChange(targetId) {
+  _currentTarget = targetId;
+  var rows = document.querySelectorAll('.issue-row[data-targets]');
+  var totalEffort = 0;
+  var domainCrits = {}; // domain -> {mandatory:0, potential:0, optional:0}
+
+  for (var i = 0; i < rows.length; i++) {
+    var row = rows[i];
+    var targets = JSON.parse(row.getAttribute('data-targets'));
+    var section = row.closest('.issue-section');
+    var domain = section ? section.getAttribute('data-domain') : '';
+
+    if (!targets || Object.keys(targets).length === 0) {
+      // No target data (e.g. security) — always show
+      var sp = parseFloat(row.querySelector('.sp-cell').textContent) || 0;
+      totalEffort += sp;
+      if (!domainCrits[domain]) domainCrits[domain] = {mandatory:0,potential:0,optional:0};
+      var crit = row.getAttribute('data-criticality') || 'optional';
+      domainCrits[domain][crit] = (domainCrits[domain][crit] || 0) + 1;
+      continue;
+    }
+
+    var override = targets[targetId];
+    if (!override) {
+      // Issue doesn't apply to this target
+      continue;
+    }
+
+    // Apply severity override
+    var newSeverity = (override.severity || row.getAttribute('data-default-severity') || '').toLowerCase();
+    row.setAttribute('data-criticality', newSeverity);
+    var critCell = row.querySelector('.crit-cell');
+    if (critCell) {
+      var critText = newSeverity === 'mandatory' ? 'Mandatory' : newSeverity === 'potential' ? 'Potential' : 'Optional';
+      var cssClass = newSeverity === 'mandatory' ? 'crit-square-mandatory' : newSeverity === 'potential' ? 'crit-square-potential' : 'crit-square-optional';
+      critCell.innerHTML = '<span class="crit-label"><span class="crit-square ' + cssClass + '"></span>' + critText + '</span>';
+    }
+
+    // Apply effort override
+    var newEffort = override.effort !== undefined ? override.effort : parseFloat(row.getAttribute('data-default-effort')) || 0;
+    var spCell = row.querySelector('.sp-cell');
+    if (spCell) spCell.textContent = newEffort;
+    totalEffort += newEffort;
+
+    if (!domainCrits[domain]) domainCrits[domain] = {mandatory:0,potential:0,optional:0};
+    domainCrits[domain][newSeverity] = (domainCrits[domain][newSeverity] || 0) + 1;
+  }
+
+  // Also add security findings effort (they don't have per-target data)
+  var secSection = document.querySelector('.issue-section[data-domain="security"]');
+  if (secSection) {
+    var secRows = secSection.querySelectorAll('.issue-row');
+    for (var j = 0; j < secRows.length; j++) {
+      if (!secRows[j].hasAttribute('data-targets') || secRows[j].getAttribute('data-targets') === '') {
+        var sp = parseFloat(secRows[j].querySelector('.sp-cell').textContent) || 0;
+        totalEffort += sp;
+        if (!domainCrits['security']) domainCrits['security'] = {mandatory:0,potential:0,optional:0};
+        var sc = secRows[j].getAttribute('data-criticality') || 'optional';
+        domainCrits['security'][sc] = (domainCrits['security'][sc] || 0) + 1;
+      }
+    }
+  }
+
+  // Update effort display
+  var label = totalEffort < 20 ? 'S' : totalEffort < 50 ? 'M' : totalEffort < 100 ? 'L' : 'XL';
+  var effortEl = document.getElementById('effort-display');
+  if (effortEl) effortEl.textContent = label + ' (total story points: ' + totalEffort + ')';
+
+  // Update donut charts
+  updateDonuts(domainCrits);
+
+  // Re-apply domain/criticality filters
+  applyFilters();
+}
+
+function updateDonuts(domainCrits) {
+  var container = document.getElementById('donut-container');
+  if (!container) return;
+  container.innerHTML = '';
+  var domainNames = {'cloud-readiness':'Cloud Readiness','java-upgrade':'Java Upgrade','dotnet-upgrade':'DotNET Upgrade','security':'Security'};
+  var domainOrder = ['cloud-readiness','java-upgrade','dotnet-upgrade','security'];
+  for (var d = 0; d < domainOrder.length; d++) {
+    var key = domainOrder[d];
+    var c = domainCrits[key];
+    if (!c || (c.mandatory + c.potential + c.optional) === 0) continue;
+    var total = c.mandatory + c.potential + c.optional;
+    var div = document.createElement('div');
+    div.className = 'domain-summary-item';
+    div.innerHTML = buildDonutSvg(c.mandatory, c.potential, c.optional) +
+      '<h3>' + domainNames[key] + '</h3>' +
+      '<div class="count">' + total + ' issue' + (total !== 1 ? 's' : '') + '</div>';
+    container.appendChild(div);
+  }
+}
+
+function buildDonutSvg(m, p, o) {
+  var total = m + p + o;
+  if (total === 0) return '<svg viewBox="0 0 100 100" width="100" height="100" style="display:block;margin:0 auto;"><circle cx="50" cy="50" r="35" fill="none" stroke="#d0d7de" stroke-width="15" opacity="0.5"/></svg>';
+  var r = 35, circ = 2 * Math.PI * r, offset = 0;
+  var svg = '<svg viewBox="0 0 100 100" width="100" height="100" style="display:block;margin:0 auto;transform:rotate(-90deg);">';
+  var segs = [{c:m,color:'var(--color-mandatory)'},{c:p,color:'var(--color-potential)'},{c:o,color:'var(--color-optional)'}];
+  for (var i = 0; i < segs.length; i++) {
+    if (segs[i].c === 0) continue;
+    var segLen = (segs[i].c / total) * circ;
+    var gap = total > segs[i].c ? 1.5 : 0;
+    var drawLen = Math.max(segLen - gap, 0.5);
+    svg += '<circle cx="50" cy="50" r="' + r + '" fill="none" stroke="' + segs[i].color + '" stroke-width="15" stroke-dasharray="' + drawLen.toFixed(2) + ' ' + circ.toFixed(2) + '" stroke-dashoffset="' + (-offset).toFixed(2) + '"/>';
+    offset += segLen;
+  }
+  svg += '</svg>';
+  return svg;
+}
+</script>
+<script>document.addEventListener('DOMContentLoaded', function() { onTargetChange('AppService.Windows'); });</script>
+</div></body></html>
