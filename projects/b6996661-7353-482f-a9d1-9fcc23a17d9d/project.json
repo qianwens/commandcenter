@@ -2,5 +2,7 @@
   "name": "fakeproj",
   "modernization_goal": "test",
   "created_at": "2026-05-21T03:29:06.3462479\u002B00:00",
-  "apps": []
+  "apps": [
+    "d44bf2ba-c509-4820-b48b-4fb569bafce1"
+  ]
 }
