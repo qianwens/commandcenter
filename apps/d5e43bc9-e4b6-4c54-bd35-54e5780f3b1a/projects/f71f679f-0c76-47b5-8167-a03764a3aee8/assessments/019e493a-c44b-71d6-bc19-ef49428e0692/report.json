@@ -1,0 +1,26 @@
+{
+  "metadata": {
+    "analysisStartTime": "2026-05-21T06:33:10Z",
+    "assessmentTool": "AppCAT",
+    "targetDisplayNames": ["AKS"],
+    "targetIds": ["aks"]
+  },
+  "rules": {},
+  "projects": [
+    {
+      "properties": {
+        "repo": "ZavaACHProcessor",
+        "appName": "ZavaACHProcessor",
+        "languages": ["Java"],
+        "frameworks": ["Java SE"],
+        "tools": ["Gradle"],
+        "jdkVersion": "8",
+        "applicationType": "Service",
+        "description": "ACH file ingestion and ledger-posting processor"
+      },
+      "incidents": []
+    }
+  ],
+  "security": [],
+  "rearchitect": []
+}

@@ -1,0 +1,37 @@
+{
+  "metadata": {
+    "analysisStartTime": "2026-05-21T06:54:24Z",
+    "targetDisplayNames": ["Azure Kubernetes Service"],
+    "targetIds": ["aks"]
+  },
+  "rules": {},
+  "projects": [
+    {
+      "properties": {
+        "repo": "ZavaBatchScheduler",
+        "appName": "ZavaBatchScheduler",
+        "languages": ["Java"],
+        "frameworks": ["Java SE"],
+        "tools": ["Gradle"],
+        "jdkVersion": "8",
+        "description": "Scheduled batch orchestrator for banking jobs",
+        "applicationType": "Batch Application"
+      },
+      "incidents": []
+    }
+  ],
+  "security": [
+    {
+      "id": "CWE-798",
+      "title": "Hardcoded default database password in configuration",
+      "severity": "mandatory",
+      "storyPoint": 5,
+      "evidence": {
+        "files": [
+          "src/main/resources/batchscheduler.properties"
+        ]
+      }
+    }
+  ],
+  "rearchitect": []
+}

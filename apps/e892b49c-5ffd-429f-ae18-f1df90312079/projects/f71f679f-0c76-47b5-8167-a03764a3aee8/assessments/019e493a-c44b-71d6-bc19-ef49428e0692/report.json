@@ -1,0 +1,99 @@
+{
+  "metadata": {
+    "analysisStartTime": "2026-05-21T06:42:08Z",
+    "targetDisplayNames": [
+      "AKS"
+    ],
+    "targetIds": [
+      "aks"
+    ]
+  },
+  "rules": {
+    "java8-eol": {
+      "title": "Java 8 runtime is out of support for modernization targets",
+      "severity": "mandatory",
+      "labels": [
+        "domain=cloud-readiness"
+      ],
+      "effort": 5,
+      "description": "The application is configured with Java 8 source and target compatibility."
+    },
+    "direct-jdbc-coupling": {
+      "title": "Direct JDBC usage increases migration effort",
+      "severity": "potential",
+      "labels": [
+        "domain=cloud-readiness"
+      ],
+      "effort": 3,
+      "description": "The application uses direct DriverManager and SQL statements in core ingestion flow."
+    },
+    "local-file-path-assumption": {
+      "title": "Hardcoded local file path assumptions limit cloud portability",
+      "severity": "potential",
+      "labels": [
+        "domain=cloud-readiness"
+      ],
+      "effort": 2,
+      "description": "The ingestion workflow depends on local mounted paths and periodic polling."
+    }
+  },
+  "projects": [
+    {
+      "properties": {
+        "repo": "ZavaFileIngestion",
+        "languages": [
+          "Java"
+        ],
+        "frameworks": [
+          "Plain Java"
+        ],
+        "tools": [
+          "Gradle"
+        ],
+        "jdkVersion": "1.8",
+        "applicationType": "Background Service",
+        "description": "File ingestion worker that parses inbound files, inserts records to SQL Server, and publishes RabbitMQ events.",
+        "linesOfCode": "420",
+        "tags": [
+          "ingestion",
+          "batch",
+          "messaging"
+        ]
+      },
+      "incidents": [
+        {
+          "ruleId": "java8-eol",
+          "location": "build.gradle",
+          "line": 17,
+          "targets": {
+            "aks": {
+              "effort": 5
+            }
+          }
+        },
+        {
+          "ruleId": "direct-jdbc-coupling",
+          "location": "src/main/java/com/zavabank/fileingestion/Main.java",
+          "line": 214,
+          "targets": {
+            "aks": {
+              "effort": 3
+            }
+          }
+        },
+        {
+          "ruleId": "local-file-path-assumption",
+          "location": "src/main/resources/fileingestion.properties",
+          "line": 13,
+          "targets": {
+            "aks": {
+              "effort": 2
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "security": [],
+  "rearchitect": []
+}

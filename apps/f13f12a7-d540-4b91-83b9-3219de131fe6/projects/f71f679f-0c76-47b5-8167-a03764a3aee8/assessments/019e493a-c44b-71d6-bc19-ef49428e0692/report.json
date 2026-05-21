@@ -1,0 +1,25 @@
+{
+  "metadata": {
+    "analysisStartTime": "2026-05-21T06:53:00Z",
+    "assessmentToolVersion": "best-effort-manual",
+    "targetDisplayNames": ["AKS"],
+    "targetIds": ["aks"]
+  },
+  "rules": {},
+  "projects": [
+    {
+      "properties": {
+        "repo": "ZavaLoanOriginationAPI",
+        "appName": "ZavaLoanOriginationAPI",
+        "languages": ["Java"],
+        "frameworks": ["Java Servlet API", "Apache Tomcat"],
+        "tools": ["Gradle"],
+        "jdkVersion": "11",
+        "applicationType": "Web API"
+      },
+      "incidents": []
+    }
+  ],
+  "security": [],
+  "rearchitect": []
+}

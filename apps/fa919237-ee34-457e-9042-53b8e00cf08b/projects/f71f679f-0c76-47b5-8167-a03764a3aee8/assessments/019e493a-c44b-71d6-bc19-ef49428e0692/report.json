@@ -1,0 +1,22 @@
+{
+  "metadata": {
+    "analysisStartTime": "2026-05-21T07:12:14Z",
+    "toolVersion": "N/A",
+    "note": "AppCAT MCP assessment tools (appmod-precheck-assessment / appmod-run-assessment) were not available in this environment. This report contains application metadata only; static code analysis issues are not populated. Re-run with MCP tools configured to obtain full issue analysis."
+  },
+  "rules": {},
+  "projects": [
+    {
+      "properties": {
+        "repo": "ZavaWireTransferService",
+        "appName": "ZavaWireTransferService",
+        "languages": ["Java"],
+        "frameworks": ["Jakarta EE Servlet API 4.0", "Tomcat 9"],
+        "tools": ["Gradle 7.6"]
+      },
+      "incidents": []
+    }
+  ],
+  "security": [],
+  "rearchitect": []
+}

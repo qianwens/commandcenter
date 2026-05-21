@@ -1,0 +1,54 @@
+{
+  "metadata": {
+    "analysisStartTime": "2026-05-21T06:39:07Z",
+    "targetDisplayNames": ["Azure Kubernetes Service"],
+    "targetIds": ["aks"]
+  },
+  "rules": {
+    "XML_API_PAYLOADS": {
+      "title": "XML payload contracts are tightly coupled to servlet parsing",
+      "severity": "potential",
+      "effort": 8,
+      "labels": ["domain=cloud-readiness"]
+    },
+    "RAW_JDBC_SQLSERVER": {
+      "title": "Raw JDBC data access with SQL Server specific SQL",
+      "severity": "mandatory",
+      "effort": 12,
+      "labels": ["domain=cloud-readiness"]
+    }
+  },
+  "projects": [
+    {
+      "properties": {
+        "repo": "ZavaLedger",
+        "appName": "ZavaLedger",
+        "languages": ["Java"],
+        "frameworks": ["Java Servlet 4.0"],
+        "tools": ["Gradle", "Tomcat"],
+        "jdkVersion": "17",
+        "applicationType": "Web Application"
+      },
+      "incidents": [
+        {
+          "ruleId": "XML_API_PAYLOADS",
+          "location": "src/main/java/com/zavabank/ledger/TransactionServlet.java",
+          "lineNumber": 38,
+          "targets": {
+            "aks": { "effort": 8 }
+          }
+        },
+        {
+          "ruleId": "RAW_JDBC_SQLSERVER",
+          "location": "src/main/java/com/zavabank/ledger/LedgerConnectionFactory.java",
+          "lineNumber": 20,
+          "targets": {
+            "aks": { "effort": 12 }
+          }
+        }
+      ]
+    }
+  ],
+  "security": [],
+  "rearchitect": []
+}

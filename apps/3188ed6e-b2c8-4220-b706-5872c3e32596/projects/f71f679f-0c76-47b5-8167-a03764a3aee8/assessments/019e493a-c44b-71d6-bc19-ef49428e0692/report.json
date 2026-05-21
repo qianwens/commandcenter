@@ -1,0 +1,22 @@
+{
+  "metadata": {
+    "analysisStartTime": "2026-05-21T07:17:14Z",
+    "assessmentTool": "AppCAT",
+    "reportVersion": "1.0"
+  },
+  "rules": {},
+  "projects": [
+    {
+      "properties": {
+        "repo": "ZavaComplianceReporter",
+        "languages": ["Java"],
+        "frameworks": ["Java Servlet 3.1", "JSP/JSTL"],
+        "tools": ["Gradle"],
+        "applicationType": "Web Application"
+      },
+      "incidents": []
+    }
+  ],
+  "security": [],
+  "rearchitect": []
+}

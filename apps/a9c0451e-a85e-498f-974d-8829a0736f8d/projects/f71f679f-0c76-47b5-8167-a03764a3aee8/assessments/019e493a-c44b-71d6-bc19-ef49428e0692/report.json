@@ -1,0 +1,24 @@
+{
+  "metadata": {
+    "analysisStartTime": "2026-05-21T06:47:24Z",
+    "targetDisplayNames": ["Azure Kubernetes Service"],
+    "targetIds": ["aks"]
+  },
+  "rules": {},
+  "projects": [
+    {
+      "properties": {
+        "repo": "ZavaInterestCalculator",
+        "appName": "ZavaInterestCalculator",
+        "languages": ["Java"],
+        "frameworks": ["Java Servlet 3.1"],
+        "tools": ["Gradle"],
+        "jdkVersion": "8",
+        "applicationType": "Web Application"
+      },
+      "incidents": []
+    }
+  ],
+  "security": [],
+  "rearchitect": []
+}

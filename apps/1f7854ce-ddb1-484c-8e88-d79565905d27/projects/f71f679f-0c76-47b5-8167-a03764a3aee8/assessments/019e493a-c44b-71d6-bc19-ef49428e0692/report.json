@@ -1,0 +1,74 @@
+{
+  "metadata": {
+    "analysisStartTime": "2026-05-21T06:39:08Z",
+    "targetDisplayNames": [
+      "Azure Kubernetes Service"
+    ],
+    "targetIds": [
+      "azure-aks"
+    ]
+  },
+  "rules": {
+    "java-struts-1-end-of-life": {
+      "title": "Apache Struts 1.x is end of life",
+      "description": "The application relies on Apache Struts 1.x, which is no longer maintained and increases migration/security risk.",
+      "severity": "mandatory",
+      "effort": 8,
+      "labels": [
+        "domain=cloud-readiness"
+      ]
+    },
+    "java-version-upgrade-needed": {
+      "title": "Upgrade Java runtime baseline",
+      "description": "The project targets Java 8. Modern platform targets generally require a newer LTS runtime.",
+      "severity": "potential",
+      "effort": 5,
+      "labels": [
+        "domain=java-upgrade"
+      ]
+    }
+  },
+  "projects": [
+    {
+      "properties": {
+        "repo": "ZavaPayGateway",
+        "languages": [
+          "Java"
+        ],
+        "frameworks": [
+          "Apache Struts 1.3"
+        ],
+        "tools": [
+          "Gradle"
+        ],
+        "jdkVersion": "1.8",
+        "applicationType": "Web Application",
+        "description": "Legacy Struts-based payment gateway web application"
+      },
+      "incidents": [
+        {
+          "ruleId": "java-struts-1-end-of-life",
+          "location": "build.gradle",
+          "line": 18,
+          "targets": {
+            "azure-aks": {
+              "effort": 8
+            }
+          }
+        },
+        {
+          "ruleId": "java-version-upgrade-needed",
+          "location": "build.gradle",
+          "line": 9,
+          "targets": {
+            "azure-aks": {
+              "effort": 5
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "security": [],
+  "rearchitect": []
+}

@@ -1,0 +1,157 @@
+{
+  "metadata": {
+    "analysisStartTime": "2026-05-21T07:02:51Z",
+    "targetDisplayNames": ["Azure Kubernetes Service", "Azure App Service"],
+    "targetIds": ["aks", "azure-app-service"]
+  },
+  "rules": {
+    "cloud-readiness-unencrypted-db-connection": {
+      "title": "SQL Server connection has TLS encryption disabled",
+      "severity": "mandatory",
+      "labels": ["domain=cloud-readiness"],
+      "effort": 1,
+      "description": "The JDBC URL is constructed with `encrypt=false;trustServerCertificate=true`, which disables TLS encryption for all traffic between the application and the SQL Server instance. In a cloud deployment, database traffic typically traverses shared network infrastructure. Unencrypted connections expose query data, credentials, and result sets to network-level interception. This must be remediated before production deployment: set `encrypt=true` and configure a trusted certificate."
+    },
+    "cloud-readiness-no-connection-pool": {
+      "title": "No JDBC connection pool configured — connections opened per request",
+      "severity": "potential",
+      "labels": ["domain=cloud-readiness"],
+      "effort": 3,
+      "description": "The application opens a new `java.sql.Connection` via `DriverManager.getConnection()` on every incoming HTTP request and closes it immediately after use. There is no connection pool (HikariCP, DBCP2, c3p0). Under concurrent load this creates a new TCP connection to SQL Server for every request, leading to latency spikes, resource exhaustion, and potential connection-limit errors. In cloud environments where managed database services enforce strict connection caps, this pattern is particularly problematic. Migrate to a pool such as HikariCP."
+    },
+    "cloud-readiness-credentials-in-bundled-file": {
+      "title": "Database credentials stored in application bundle",
+      "severity": "mandatory",
+      "labels": ["domain=cloud-readiness"],
+      "effort": 5,
+      "description": "The file `src/main/resources/kyc.properties` contains database host, username, and a plaintext password that are bundled inside the WAR artifact and committed to source control. Any person with repository read access or access to the deployed WAR file can extract these credentials. Cloud-native deployments must source secrets from a secrets manager (Azure Key Vault, AWS Secrets Manager, Kubernetes Secrets) and never commit credentials to source control. Remove the credentials from the properties file and inject them exclusively via environment variables or a managed secret store."
+    },
+    "java-upgrade-javax-to-jakarta": {
+      "title": "javax.servlet.* imports must be migrated to jakarta.servlet.* for Jakarta EE 9+",
+      "severity": "mandatory",
+      "labels": ["domain=java-upgrade"],
+      "effort": 5,
+      "description": "All servlet classes in the application import from the `javax.servlet` package namespace. Starting with Jakarta EE 9 (Tomcat 10.0+), the namespace was renamed from `javax.*` to `jakarta.*`. Deploying this WAR on Tomcat 10+ will result in `ClassNotFoundException` at startup. Migrating to a supported container version (required for modern JDK support) requires updating all `javax.servlet.*` imports to `jakarta.servlet.*` and changing the `compileOnly` dependency from `javax.servlet:javax.servlet-api` to `jakarta.servlet:jakarta.servlet-api`."
+    },
+    "java-upgrade-java8-eol": {
+      "title": "Java 8 is end-of-life for Oracle public updates — upgrade to Java 17 or 21",
+      "severity": "potential",
+      "labels": ["domain=java-upgrade"],
+      "effort": 8,
+      "description": "The project is compiled and packaged with `sourceCompatibility = JavaVersion.VERSION_1_8` (Java 8). Oracle stopped providing free public updates for Java 8 in March 2022. Java 17 and Java 21 are Long-Term Support (LTS) releases actively supported by all major vendors. Modern cloud container runtimes and Azure services recommend Java 17+ for security patches, G1GC improvements, and virtual thread support (Project Loom in Java 21). Upgrading to Java 17 LTS is the recommended minimum; Java 21 LTS provides additional performance and security improvements."
+    }
+  },
+  "projects": [
+    {
+      "properties": {
+        "repo": "ZavaKYCService",
+        "appName": "ZavaKYCService",
+        "languages": ["Java"],
+        "frameworks": ["Java EE (Servlet API 4.0)"],
+        "tools": ["Gradle 7.6"],
+        "jdkVersion": "1.8",
+        "applicationType": "Web Application (WAR)",
+        "tags": ["kyc", "servlet", "tomcat", "sql-server"],
+        "linesOfCode": 248
+      },
+      "incidents": [
+        {
+          "ruleId": "cloud-readiness-unencrypted-db-connection",
+          "location": "src/main/java/com/zavabank/kycservice/KycConfig.java",
+          "line": 28
+        },
+        {
+          "ruleId": "cloud-readiness-no-connection-pool",
+          "location": "src/main/java/com/zavabank/kycservice/KycConnectionFactory.java",
+          "line": 19
+        },
+        {
+          "ruleId": "cloud-readiness-no-connection-pool",
+          "location": "src/main/java/com/zavabank/kycservice/KycVerifyServlet.java",
+          "line": 41
+        },
+        {
+          "ruleId": "cloud-readiness-no-connection-pool",
+          "location": "src/main/java/com/zavabank/kycservice/KycStatusServlet.java",
+          "line": 47
+        },
+        {
+          "ruleId": "cloud-readiness-no-connection-pool",
+          "location": "src/main/java/com/zavabank/kycservice/KycBootstrapServlet.java",
+          "line": 14
+        },
+        {
+          "ruleId": "cloud-readiness-credentials-in-bundled-file",
+          "location": "src/main/resources/kyc.properties",
+          "line": 4
+        },
+        {
+          "ruleId": "java-upgrade-javax-to-jakarta",
+          "location": "src/main/java/com/zavabank/kycservice/KycBootstrapServlet.java",
+          "line": 5
+        },
+        {
+          "ruleId": "java-upgrade-javax-to-jakarta",
+          "location": "src/main/java/com/zavabank/kycservice/KycVerifyServlet.java",
+          "line": 9
+        },
+        {
+          "ruleId": "java-upgrade-javax-to-jakarta",
+          "location": "src/main/java/com/zavabank/kycservice/KycStatusServlet.java",
+          "line": 9
+        },
+        {
+          "ruleId": "java-upgrade-javax-to-jakarta",
+          "location": "src/main/java/com/zavabank/kycservice/HealthServlet.java",
+          "line": 3
+        },
+        {
+          "ruleId": "java-upgrade-java8-eol",
+          "location": "build.gradle",
+          "line": 7
+        }
+      ]
+    }
+  ],
+  "security": [
+    {
+      "id": "CWE-798",
+      "title": "Hardcoded Credentials in Application Bundle",
+      "severity": "mandatory",
+      "storyPoint": 3,
+      "evidence": {
+        "files": [
+          "src/main/resources/kyc.properties",
+          "src/main/java/com/zavabank/kycservice/KycConfig.java"
+        ]
+      }
+    },
+    {
+      "id": "CWE-306",
+      "title": "Missing Authentication for Critical Function",
+      "severity": "mandatory",
+      "storyPoint": 8,
+      "evidence": {
+        "files": [
+          "src/main/java/com/zavabank/kycservice/KycVerifyServlet.java",
+          "src/main/java/com/zavabank/kycservice/KycStatusServlet.java",
+          "src/main/webapp/WEB-INF/web.xml"
+        ]
+      }
+    },
+    {
+      "id": "CWE-778",
+      "title": "Insufficient Logging of Security-Relevant Events",
+      "severity": "potential",
+      "storyPoint": 3,
+      "evidence": {
+        "files": [
+          "src/main/java/com/zavabank/kycservice/KycVerifyServlet.java",
+          "src/main/java/com/zavabank/kycservice/KycStatusServlet.java",
+          "src/main/java/com/zavabank/kycservice/KycBootstrapServlet.java"
+        ]
+      }
+    }
+  ],
+  "rearchitect": []
+}

@@ -1,0 +1,90 @@
+{
+  "metadata": {
+    "analysisStartTime": "2026-05-21T07:00:37Z",
+    "targetIds": ["aks"],
+    "targetDisplayNames": ["AKS"],
+    "assessmentTool": "AppCAT"
+  },
+  "rules": {
+    "java.struts2.legacy": {
+      "title": "Legacy Struts 2 web framework",
+      "severity": "mandatory",
+      "effort": 8,
+      "description": "The application depends on Struts 2 and action-based MVC, which requires framework modernization before cloud-native migration.",
+      "labels": ["domain=cloud-readiness"]
+    },
+    "java.direct-jdbc-coupling": {
+      "title": "Direct JDBC access in action classes",
+      "severity": "potential",
+      "effort": 5,
+      "description": "Business and presentation actions use direct JDBC queries, increasing coupling and reducing maintainability.",
+      "labels": ["domain=cloud-readiness"]
+    },
+    "java.runtime-upgrade": {
+      "title": "Java 11 runtime upgrade planning",
+      "severity": "potential",
+      "effort": 3,
+      "description": "The project currently targets Java 11 and should plan an upgrade path to a current LTS runtime.",
+      "labels": ["domain=java-upgrade"]
+    }
+  },
+  "projects": [
+    {
+      "properties": {
+        "repo": "ZavaFraudDetector",
+        "appName": "ZavaFraudDetector",
+        "languages": ["Java"],
+        "frameworks": ["Apache Struts 2"],
+        "tools": ["Gradle"],
+        "jdkVersion": "11",
+        "applicationType": "Web application"
+      },
+      "incidents": [
+        {
+          "ruleId": "java.struts2.legacy",
+          "message": "Detected Struts action mappings and interceptor stack configuration.",
+          "location": "src/main/resources/struts.xml",
+          "lineNumber": 8,
+          "targets": {
+            "aks": {
+              "effort": 8
+            }
+          }
+        },
+        {
+          "ruleId": "java.direct-jdbc-coupling",
+          "message": "Detected SQL statement execution directly from web action class.",
+          "location": "src/main/java/com/zavabank/frauddetector/FlaggedQueueAction.java",
+          "lineNumber": 24,
+          "targets": {
+            "aks": {
+              "effort": 5
+            }
+          }
+        },
+        {
+          "ruleId": "java.runtime-upgrade",
+          "message": "Project currently compiles against Java 11.",
+          "location": "build.gradle",
+          "lineNumber": 9,
+          "targets": {
+            "aks": {
+              "effort": 3
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "security": [
+    {
+      "title": "Default database password in configuration file",
+      "severity": "mandatory",
+      "description": "A plaintext SQL password is present in frauddetector.properties and should be replaced with external secret injection.",
+      "location": "src/main/resources/frauddetector.properties",
+      "lineNumber": 5,
+      "effort": 3
+    }
+  ],
+  "rearchitect": []
+}
